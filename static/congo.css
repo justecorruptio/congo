@@ -1,0 +1,42 @@
+html, body {
+    height: 100%;
+}
+
+.congo-hero {
+    height: 100%;
+    background-color: transparent;
+    color: #eeeeee;
+}
+
+.congo-hero-image {
+    position: fixed;
+    display: block;
+    top: -20px;
+    left: -20px;
+    bottom: -20px;
+    right: -20px;
+
+    height: 120%;
+    width: 120%;
+    background-image: url("/static/hero.jpg");
+    background-size: 100%;
+
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+
+    -webkit-filter: blur(10px);
+    -moz-filter: blur(10px);
+    -ms-filter: blur(10px);
+    filter: blur(10px);
+
+    z-index: -1;
+}
+
+.congo-hero > .container {
+    position: relative;
+    top: 30%;
+    transform: translateY(-50%);
+    background-color: transparent;
+}

@@ -11,7 +11,8 @@ CREATE TABLE Users (
 CREATE TABLE Sessions (
     `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
     `user_id` int(11) unsigned NOT NULL,
-    `data` varchar(40) NOT NULL DEFAULT '',
+    `created` timestamp NOT NULL default current_timestamp,
+    `data` text,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `user_id_idx` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

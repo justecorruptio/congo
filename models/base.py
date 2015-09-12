@@ -20,6 +20,18 @@ class Model(object):
         )
 
     @classmethod
+    def delete(cls, **kwargs):
+        where = ' AND '.join(
+            '%s=$%s' % (n, n)
+            for n in kwargs
+        )
+        return db.delete(
+            cls.table_name,
+            where=where,
+            vars=kwargs,
+        )
+
+    @classmethod
     def get(cls, **kwargs):
         results = cls.fetch(limit=1, **kwargs)
         if len(results) == 0:
@@ -29,8 +41,7 @@ class Model(object):
 
     @classmethod
     def insert(cls, **kwargs):
-        db.insert(
+        return db.insert(
             cls.table_name,
             **kwargs
         )
-        return True

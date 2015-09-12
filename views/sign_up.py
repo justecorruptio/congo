@@ -2,6 +2,7 @@ import web
 
 from forms import SignUpForm
 from models import User
+from models import Session
 from templates import render
 
 class SignUpView:
@@ -15,9 +16,12 @@ class SignUpView:
         rating = int(form.d.rating[:-1])
         if form.d.rating[-1] in 'kK':
             rating = -rating
-        created, err = User.create(
+        created, user_id, err = User.create(
             form.d.name,
             form.d.passwd,
             rating=rating,
         )
+
+        Session.login(user_id)
+
         return "YO!"

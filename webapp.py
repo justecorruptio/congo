@@ -6,6 +6,7 @@ from views import views
 web.config.debug = settings.DEBUG
 
 urls = (
+    "/login", "LoginView",
     "/signup", "SignUpView",
     "/", "IndexView",
 )

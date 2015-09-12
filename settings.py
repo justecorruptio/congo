@@ -6,3 +6,5 @@ DATABASE = {
 }
 
 DEBUG = True
+
+COOKIE_DOMAIN = '***REMOVED***'

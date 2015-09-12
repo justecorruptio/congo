@@ -6,7 +6,8 @@ from views import views
 web.config.debug = settings.DEBUG
 
 urls = (
-    ".*", "IndexView",
+    "/signup", "SignUpView",
+    "/", "IndexView",
 )
 
 app = web.application(urls, views)

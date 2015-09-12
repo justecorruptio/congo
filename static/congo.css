@@ -1,9 +1,9 @@
 html, body {
     height: 100%;
+    overflow-x: hidden;
 }
 
 .congo-hero {
-    height: 100%;
     background-color: transparent;
     color: #eeeeee;
 }
@@ -16,7 +16,7 @@ html, body {
     bottom: -20px;
     right: -20px;
 
-    height: 120%;
+    height: 100%;
     width: 120%;
     background-image: url("/static/hero.jpg");
     background-size: 100%;
@@ -32,11 +32,13 @@ html, body {
     filter: blur(10px);
 
     z-index: -1;
+    overflow: hidden;
 }
 
 .congo-hero > .container {
-    position: relative;
+    position: fixed;
     top: 30%;
+    left: 15px;
     transform: translateY(-50%);
     background-color: transparent;
 }

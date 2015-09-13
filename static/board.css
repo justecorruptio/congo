@@ -60,6 +60,8 @@
     empty-cells: show;
     padding: 0px;
     width: 1%;
+
+    cursor: pointer;
 }
 
 .sgf-point {
@@ -174,6 +176,18 @@
     bottom: 0;
     right: 0;
     border: solid 1px #444444;
+}
+
+.sgf-vote:before {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background-color: transparent;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: solid 2px #007700;
 }
 
 .sgf-lastmove:after {

@@ -56,3 +56,15 @@ html, body {
 .header-offset {
     height: 65px;
 }
+
+.congo-vote-dialog {
+    margin-top: 65px;
+    width: 100%;
+}
+
+@media screen and (max-width: 768px){
+    .congo-vote-dialog-bottom {
+        position: fixed;
+        bottom: 15px;
+    }
+}

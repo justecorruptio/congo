@@ -33,20 +33,12 @@ $:render.header()
 </div>
 
 
-<div class="col-xs-12 col-sm-4 col-md-3">
+<div class="col-xs-12 col-sm-4 col-md-3 hidden-xs">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Top Votes</h3>
         </div>
         <table class="table">
-            <!--
-            <thead>
-                <tr>
-                    <td>Label</td>
-                    <td>Votes</td>
-                </tr>
-            </thead>
-            -->
             <tbody class="congo-votes-table"></tbody>
         </table>
     </div>
@@ -55,3 +47,32 @@ $:render.header()
 
 </div>
 </div>
+
+
+
+<div id="congo-vote-modal" class="modal fade" role="dialog">
+    <div class="congo-vote-dialog modal-sm" role="document">
+
+<div class="container">
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-sm-offset-8 col-md-3 col-lg-offset-7">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Cast Vote</h4>
+            </div>
+            <div class="modal-body">
+                $:render.vote()
+            </div>
+        </div>
+
+</div>
+</div>
+</div>
+
+    </div>
+</div>
+

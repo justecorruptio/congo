@@ -9,6 +9,15 @@ $(function() {
             var $sgf_row = $('<div class="sgf-row"></div>');
             for(var j = 0; j < board_size; j++) {
                 var $sgf_point = $('<div class="sgf-point"></div>');
+
+                if(
+                    (i == 3 || i == 9 || i == 15) &&
+                    (j == 3 || j == 9 || j == 15)
+                ) {
+                    var $hoshi = $('<div class="sgf-hoshi"></div>');
+                    $sgf_point.append($hoshi);
+                }
+
                 var color = board_data[i][j];
                 var pos = String.fromCharCode(97 + i, 97 + j);
                 $sgf_point.addClass({
@@ -20,6 +29,10 @@ $(function() {
                 $sgf_cell.data('pos', pos);
                 $sgf_cell.addClass('sgf-cell-' + pos);
                 $sgf_cell.append($sgf_point);
+                $sgf_cell.click(function() {
+                    var pos = $(this).data('pos');
+                    start_vote(pos);
+                });
                 $sgf_row.append($sgf_cell);
             }
             $sgf_board.append($sgf_row);
@@ -54,12 +67,43 @@ $(function() {
         for(var i = 0; i < board_votes.length; i++) {
             var vote = board_votes[i];
             var $tr = $('<tr>' +
-                '<td><a href="">' + vote.label + '</a></td>' +
+                '<td><a href="" data-pos="' + vote.pos + '"' +
+                ' class="data-pane-label">' + vote.label + '</a></td>' +
                 '<td>' + vote.count + ' votes</td>' +
             '</tr>');
             $votes_table.append($tr);
+
+            $('.data-pane-label').click(function(event) {
+                event.preventDefault();
+                start_vote($(this).data('pos'));
+                return false;
+            });
         }
 
+    }
+
+    function start_vote(pos) {
+        console.debug("CLICK");
+        var $sgf_cell = $('.sgf-cell-' + pos);
+        var $sgf_point = $sgf_cell.find('.sgf-point');
+        $sgf_point.removeClass('sgf-empty');
+        $sgf_point.addClass('sgf-vote');
+
+        var y = pos.charCodeAt(0) - 97;
+
+        if (y < 13) {
+            $('.congo-vote-dialog').addClass('congo-vote-dialog-bottom');
+        }
+        else {
+            $('.congo-vote-dialog').removeClass('congo-vote-dialog-bottom');
+        }
+
+        var $modal = $('#congo-vote-modal');
+        $modal.modal('show');
+        $modal.on('hide.bs.modal', function(event) {
+            $sgf_point.removeClass('sgf-vote');
+            $sgf_point.addClass('sgf-empty');
+        });
     }
 
     function sync_game() {

@@ -43,3 +43,9 @@ class GameStateView(object):
                 {'pos': 'jj', 'count': 1, 'label': 'G'},
             ],
         })
+
+
+class GameVotesView(object):
+    def GET(self, pos):
+        return json.dumps({
+        })

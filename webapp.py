@@ -1,17 +1,12 @@
 import web
 
 import settings
-from views import views
+from views import (
+    urls,
+    views,
+)
 
 web.config.debug = settings.DEBUG
-
-urls = (
-    "/login", "LoginView",
-    "/logout", "LogoutView",
-    "/signup", "SignUpView",
-    "/api/game_state", "GameStateView",
-    "/", "IndexView",
-)
 
 app = web.application(urls, views)
 application = app.wsgifunc()

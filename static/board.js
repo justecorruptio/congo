@@ -82,6 +82,17 @@ $(function() {
 
     }
 
+    function redraw_votes_others(data) {
+        var $votes_others = $('.congo-votes-others');
+        $votes_others.empty();
+        var votes = data['votes'];
+        for(var i = 0; i < votes.length; i++) {
+            var vote = votes[i];
+            $votes_others.append($('<dt>' + vote.name + ' (' + vote.rating + ')</dt>'));
+            $votes_others.append($('<dd>' + vote.notes + '</dd>'));
+        }
+    }
+
     function start_vote(pos) {
         var $sgf_cell = $('.sgf-cell-' + pos);
 
@@ -91,6 +102,10 @@ $(function() {
         }
 
         var $sgf_point = $sgf_cell.find('.sgf-point');
+
+        if(!$sgf_point.hasClass('sgf-empty')) {
+            return false;
+        }
         $sgf_point.removeClass('sgf-empty');
         $sgf_point.addClass('sgf-vote');
 
@@ -103,14 +118,19 @@ $(function() {
             $('.congo-vote-dialog').removeClass('congo-vote-dialog-bottom');
         }
 
+        var $modal = $('#congo-vote-modal');
+
         $.getJSON('/api/game_votes/' + pos).done(function(data) {
-            var $modal = $('#congo-vote-modal');
+            redraw_votes_others(data);
             $modal.modal('show');
             $modal.on('hide.bs.modal', function(event) {
                 $sgf_point.removeClass('sgf-vote');
                 $sgf_point.addClass('sgf-empty');
             });
+        }).error(function() {
+            alert('Error.'); //TODO: make better;
         });
+
     }
 
     function sync_game() {

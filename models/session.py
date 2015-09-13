@@ -63,11 +63,24 @@ class Session(Model):
         user_id = cookies.get(settings.COOKIE_KEY_USER_ID)
         nonce = cookies.get(settings.COOKIE_KEY_NONCE)
         if user_id is None:
-            return False, None
+            return False
 
-        session = cls.get(user_id=user_id)
+        sessions = cls.db.query("""
+            SELECT s.data as data, u.name as name, u.id as id
+            FROM Sessions s JOIN Users u ON u.id = s.user_id
+            WHERE s.user_id=$user_id
+            LIMIT 1
+        """, vars={'user_id': user_id})
+
+        if not sessions:
+            return False
+
+        session = sessions[0]
         session_nonce = json.loads(session.data).get('nonce')
         if nonce != session_nonce:
-            return False, None
+            return False
 
-        return True, user_id
+        # user-like object
+        web.ctx.user = session
+
+        return True

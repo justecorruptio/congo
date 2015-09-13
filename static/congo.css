@@ -42,3 +42,7 @@ html, body {
     transform: translateY(-50%);
     background-color: transparent;
 }
+
+.header-offset {
+    height: 65px;
+}

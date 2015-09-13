@@ -2,10 +2,10 @@ import web
 
 import settings
 
-db = web.database(**settings.DATABASE)
-
 
 class Model(object):
+
+    db = web.database(**settings.DATABASE)
 
     @classmethod
     def fetch(cls, order=None, limit=None, **kwargs):
@@ -13,7 +13,7 @@ class Model(object):
             '%s=$%s' % (n, n)
             for n in kwargs
         )
-        return db.select(
+        return cls.db.select(
             cls.table_name,
             where=where,
             vars=kwargs,
@@ -25,7 +25,7 @@ class Model(object):
             '%s=$%s' % (n, n)
             for n in kwargs
         )
-        return db.delete(
+        return cls.db.delete(
             cls.table_name,
             where=where,
             vars=kwargs,
@@ -41,7 +41,7 @@ class Model(object):
 
     @classmethod
     def insert(cls, **kwargs):
-        return db.insert(
+        return cls.db.insert(
             cls.table_name,
             **kwargs
         )

@@ -7,6 +7,7 @@ web.config.debug = settings.DEBUG
 
 urls = (
     "/login", "LoginView",
+    "/logout", "LogoutView",
     "/signup", "SignUpView",
     "/", "IndexView",
 )

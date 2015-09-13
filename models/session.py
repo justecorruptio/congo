@@ -30,5 +30,43 @@ class Session(Model):
             }),
         )
 
-        web.setcookie('uid', str(user_id), domain=settings.COOKIE_DOMAIN)
-        web.setcookie('nonce', nonce, domain=settings.COOKIE_DOMAIN)
+        web.setcookie(
+            settings.COOKIE_KEY_USER_ID,
+            str(user_id),
+            domain=settings.COOKIE_DOMAIN,
+        )
+        web.setcookie(
+            settings.COOKIE_KEY_NONCE,
+            nonce,
+            domain=settings.COOKIE_DOMAIN,
+        )
+
+    @classmethod
+    def logout(cls):
+        web.setcookie(
+            settings.COOKIE_KEY_USER_ID,
+            '',
+            expires=-1,
+            domain=settings.COOKIE_DOMAIN,
+        )
+        web.setcookie(
+            settings.COOKIE_KEY_NONCE,
+            '',
+            expires=-1,
+            domain=settings.COOKIE_DOMAIN,
+        )
+
+    @classmethod
+    def is_logged_in(cls):
+
+        cookies = web.cookies()
+        user_id = cookies.get(settings.COOKIE_KEY_USER_ID)
+        if user_id is None:
+            return False, None
+        session = cls.get(user_id=user_id)
+
+        nonce = cookies.get(settings.COOKIE_KEY_USER_ID)
+        if nonce != session.nonce:
+            return False, None
+
+        return True, user_id

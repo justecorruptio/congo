@@ -9,6 +9,7 @@ urls = (
     "/login", "LoginView",
     "/logout", "LogoutView",
     "/signup", "SignUpView",
+    "/api/game_state", "GameStateView",
     "/", "IndexView",
 )
 

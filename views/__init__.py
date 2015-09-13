@@ -1,4 +1,5 @@
 from .index import IndexView
+from .game import GameStateView
 from .login import (
     LoginView,
     LogoutView,

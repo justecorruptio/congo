@@ -1,10 +1,8 @@
 import web
 
-from models import (
-    Session,
-    User,
-)
+from models import Session
 from templates import render
+
 
 class IndexView(object):
     def GET(self):

@@ -94,20 +94,24 @@ $(function() {
     }
 
     function start_vote(pos) {
-        var $sgf_cell = $('.sgf-cell-' + pos);
+        if(pos != 'tt') {
+            var $sgf_cell = $('.sgf-cell-' + pos);
 
-        if($sgf_cell.data('illegal')) {
-            alert("Illegal Move.");
-            return false;
+            if($sgf_cell.data('illegal')) {
+                return false;
+            }
+
+            var $sgf_point = $sgf_cell.find('.sgf-point');
+
+            if(!$sgf_point.hasClass('sgf-empty')) {
+                return false;
+            }
+            $sgf_point.removeClass('sgf-empty');
+            $sgf_point.addClass('sgf-vote');
         }
-
-        var $sgf_point = $sgf_cell.find('.sgf-point');
-
-        if(!$sgf_point.hasClass('sgf-empty')) {
-            return false;
+        else {
+            $('.pass-button').addClass('pass-vote');
         }
-        $sgf_point.removeClass('sgf-empty');
-        $sgf_point.addClass('sgf-vote');
 
         var y = pos.charCodeAt(0) - 97;
 
@@ -124,8 +128,13 @@ $(function() {
             redraw_votes_others(data);
             $modal.modal('show');
             $modal.on('hide.bs.modal', function(event) {
-                $sgf_point.removeClass('sgf-vote');
-                $sgf_point.addClass('sgf-empty');
+                if(pos != 'tt') {
+                    $sgf_point.removeClass('sgf-vote');
+                    $sgf_point.addClass('sgf-empty');
+                }
+                else {
+                    $('.pass-button').removeClass('pass-vote');
+                }
             });
         }).error(function() {
             alert('Error.'); //TODO: make better;

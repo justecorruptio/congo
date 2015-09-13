@@ -23,7 +23,8 @@ CREATE TABLE Games (
     `created` timestamp NOT NULL default current_timestamp,
     `status` tinyint unsigned NOT NULL,
     `current_seq` smallint unsigned NOT NULL default 1,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    INDEX `status_idx` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE Players (

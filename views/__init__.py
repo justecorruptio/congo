@@ -6,8 +6,8 @@ from .game import (
 from .login import (
     LoginView,
     LogoutView,
+    SignUpView,
 )
-from .sign_up import SignUpView
 
 views = globals()
 

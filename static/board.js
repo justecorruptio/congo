@@ -54,7 +54,7 @@ $(function() {
         for(var i = 0; i < board_votes.length; i++) {
             var vote = board_votes[i];
             var $tr = $('<tr>' +
-                '<td><a>' + vote.label + '</a></td>' +
+                '<td><a href="">' + vote.label + '</a></td>' +
                 '<td>' + vote.count + ' votes</td>' +
             '</tr>');
             $votes_table.append($tr);

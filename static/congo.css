@@ -36,11 +36,17 @@ html, body {
 }
 
 .congo-hero > .container {
-    position: fixed;
+    position: absolute;
     top: 30%;
     left: 15px;
     transform: translateY(-50%);
     background-color: transparent;
+}
+
+.congo-footer {
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
 }
 
 .v-pad-1 {

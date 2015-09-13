@@ -68,3 +68,11 @@ html, body {
         bottom: 15px;
     }
 }
+
+textarea {
+    resize: none;
+}
+
+form {
+    margin-bottom: 0px;
+}

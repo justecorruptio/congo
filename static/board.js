@@ -83,26 +83,33 @@ $(function() {
     }
 
     function start_vote(pos) {
-        console.debug("CLICK");
         var $sgf_cell = $('.sgf-cell-' + pos);
+
+        if($sgf_cell.data('illegal')) {
+            alert("Illegal Move.");
+            return false;
+        }
+
         var $sgf_point = $sgf_cell.find('.sgf-point');
         $sgf_point.removeClass('sgf-empty');
         $sgf_point.addClass('sgf-vote');
 
         var y = pos.charCodeAt(0) - 97;
 
-        if (y < 13) {
+        if (y < 15) {
             $('.congo-vote-dialog').addClass('congo-vote-dialog-bottom');
         }
         else {
             $('.congo-vote-dialog').removeClass('congo-vote-dialog-bottom');
         }
 
-        var $modal = $('#congo-vote-modal');
-        $modal.modal('show');
-        $modal.on('hide.bs.modal', function(event) {
-            $sgf_point.removeClass('sgf-vote');
-            $sgf_point.addClass('sgf-empty');
+        $.getJSON('/api/game_votes/' + pos).done(function(data) {
+            var $modal = $('#congo-vote-modal');
+            $modal.modal('show');
+            $modal.on('hide.bs.modal', function(event) {
+                $sgf_point.removeClass('sgf-vote');
+                $sgf_point.addClass('sgf-empty');
+            });
         });
     }
 

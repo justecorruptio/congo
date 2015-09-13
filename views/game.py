@@ -48,4 +48,19 @@ class GameStateView(object):
 class GameVotesView(object):
     def GET(self, pos):
         return json.dumps({
+            'count': 13,
+            'votes': [
+                {'name': 'Bob', 'rating': '2D', 'notes': """
+                    This is a standard way to reduce the side
+                    of the board so that the opponent is weakened.
+                """},
+                {'name': 'Tom', 'rating': '7k', 'notes': """
+                    Who care why this is good. It is a Hote move.
+                """},
+                {'name': 'Max', 'rating': '12k', 'notes': """
+                    I'm a very dilligent writer who writes very long
+                    things about anything although I usually nver really
+                    make any sense at all an i mispell things.
+                """},
+            ],
         })

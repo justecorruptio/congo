@@ -33,6 +33,33 @@ $(function() {
             $sgf_point.attr('point-label', "\u25A2");
             $sgf_point.addClass('sgf-coord');
         }
+
+        var board_votes = data['votes'];
+        for(var i = 0; i < board_votes.length; i++) {
+            var vote = board_votes[i];
+            var $sgf_cell = $('.sgf-cell-' + vote.pos);
+            var $sgf_point = $sgf_cell.find('.sgf-point')
+            $sgf_point.attr('point-label', vote.label)
+            $sgf_point.addClass('sgf-coord');
+        }
+
+        var $board_info = $('.congo-board-info');
+        $board_info.text(data['info']);
+    }
+
+    function redraw_data_pane(data) {
+        var $votes_table = $('.congo-votes-table');
+
+        var board_votes = data['votes'];
+        for(var i = 0; i < board_votes.length; i++) {
+            var vote = board_votes[i];
+            var $tr = $('<tr>' +
+                '<td><a>' + vote.label + '</a></td>' +
+                '<td>' + vote.count + ' votes</td>' +
+            '</tr>');
+            $votes_table.append($tr);
+        }
+
     }
 
     function sync_game() {
@@ -40,6 +67,7 @@ $(function() {
         .done(function(data) {
             gData = data;
             redraw_board(data);
+            redraw_data_pane(data);
         });
     }
 

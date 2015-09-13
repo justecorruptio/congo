@@ -20,8 +20,9 @@ $:render.header()
     </div>
 </div></div>
 <div class="row v-pad-1"><div class="col-xs-12">
-    <div class="well well-sm">
-            Black's turn. Captures: Black 3, White 7
+    <div class="panel panel-default">
+        <div class="congo-board-info panel-body">
+        </div>
     </div>
 </div></div>
 
@@ -29,10 +30,21 @@ $:render.header()
 
 
 <div class="col-xs-12 col-sm-4 col-md-3">
-    <div class="well well-sm">
-        <p>
-            THIS IS DATA.
-        </p>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Top Votes</h3>
+        </div>
+        <table class="table">
+            <!--
+            <thead>
+                <tr>
+                    <td>Label</td>
+                    <td>Votes</td>
+                </tr>
+            </thead>
+            -->
+            <tbody class="congo-votes-table"></tbody>
+        </table>
     </div>
 </div>
 

@@ -62,6 +62,7 @@ $(function() {
 
     function redraw_data_pane(data) {
         var $votes_table = $('.congo-votes-table');
+        $votes_table.empty()
 
         var board_votes = data['votes'];
         for(var i = 0; i < board_votes.length; i++) {
@@ -80,6 +81,13 @@ $(function() {
             });
         }
 
+        var $turn_info = $('.turn-info');
+        var player_color_str = game_info.player_color == 1 ? "black" : "white";
+        var your_turn_str = game_info.your_turn == 1 ? "" : "<b>not</b> ";
+        var info_str = "You're " + player_color_str + '. ' +
+            "It's " + your_turn_str + 'your turn.';
+
+        $turn_info.html(info_str);
     }
 
     function redraw_votes_others(data) {
@@ -94,6 +102,9 @@ $(function() {
     }
 
     function start_vote(pos) {
+        if(! game_info.your_turn) {
+            return false;
+        }
         if(pos != 'tt') {
             var $sgf_cell = $('.sgf-cell-' + pos);
 

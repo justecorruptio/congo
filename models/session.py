@@ -84,3 +84,22 @@ class Session(Model):
         web.ctx.user = session
 
         return True
+
+    @classmethod
+    def load_game_data(cls):
+        user_id = web.ctx.user.id
+
+        game = cls.db.query("""
+            SELECT
+                g.id AS game_id,
+                g.current_seq AS current_seq,
+                p.color AS player_color
+            FROM Games g
+            JOIN Players p ON p.game_id = g.id
+            WHERE g.status = 10
+            AND p.user_id = $user_id
+            LIMIT 1
+        """, vars={'user_id': user_id})
+
+
+        web.ctx.game = game[0]

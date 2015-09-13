@@ -5,8 +5,10 @@ from models import Session
 
 def require_login(func):
     def func_wrapper(self, *args, **kwargs):
-        if Session.is_logged_in():
-            return func(self, *args, **kwargs)
-        else:
+        if not Session.is_logged_in():
             raise web.notfound('unauthorized')
+
+        Session.load_game_data()
+        return func(self, *args, **kwargs)
+
     return func_wrapper

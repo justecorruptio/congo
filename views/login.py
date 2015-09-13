@@ -1,3 +1,4 @@
+import random
 import web
 
 from forms import (
@@ -5,10 +6,13 @@ from forms import (
     SignUpForm,
 )
 from models import (
+    Game,
+    Player,
     Session,
     User,
 )
 from templates import render
+
 
 class LoginView(object):
 
@@ -22,6 +26,7 @@ class LoginView(object):
             raise web.notfound(err)
 
         Session.login(user.id)
+        Game.join(user.id)
 
         return "YO!"
 
@@ -51,5 +56,6 @@ class SignUpView:
         )
 
         Session.login(user_id)
+        Game.join(user_id)
 
         return "YO!"

@@ -33,7 +33,8 @@ CREATE TABLE Players (
     `game_id` int(11) unsigned NOT NULL,
     `user_id` int(11) unsigned NOT NULL,
     `color` tinyint unsigned NOT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    INDEX `game_id_user_id_idx` (`game_id`, `user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE Votes (

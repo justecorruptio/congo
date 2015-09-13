@@ -1,5 +1,8 @@
 $def with ()
 
+$var deferjs:
+    <script src="/static/board.js"></script>
+
 $:render.header()
 
 <div class="container">
@@ -11,29 +14,7 @@ $:render.header()
     <div class="sgf-container">
         <div class="sgf-board-wrapper">
             <div class="sgf-board-wrapper-inner">
-                <div class="sgf-board">
-                    <div class="sgf-row">
-                        <div class="sgf-cell">
-                            <div class="sgf-point sgf-empty">
-                            </div>
-                        </div>
-                        <div class="sgf-cell">
-                            <div class="sgf-point sgf-empty">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="sgf-row">
-                        <div class="sgf-cell">
-                            <div class="sgf-point sgf-white">
-                            </div>
-                        </div>
-                        <div class="sgf-cell">
-                            <div class="sgf-point sgf-empty">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="sgf-board"></div>
             </div>
         </div>
     </div>

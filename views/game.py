@@ -1,6 +1,10 @@
 import json
 import web
 
+from forms import VoteForm
+from models import (
+    Vote,
+)
 from views.utils import require_login
 
 class GameStateView(object):
@@ -45,7 +49,27 @@ class GameStateView(object):
         })
 
 
+class VoteView(object):
+    @require_login
+    def POST(self):
+        form = VoteForm()
+        if not form.validates():
+            raise web.notfound(form.note)
+        if web.ctx.game.current_seq % 2 != web.ctx.game.player_color % 2:
+            raise web.notfound("It's not your turn!")
+        Vote.insert_or_update(
+            ('game_id', 'user_id', 'seq'),
+            game_id=web.ctx.game.id,
+            user_id=web.ctx.user.id,
+            seq=web.ctx.game.current_seq,
+            move=form.d.pos,
+            notes=form.d.notes,
+        )
+
+
+
 class GameVotesView(object):
+    @require_login
     def GET(self, pos):
         return json.dumps({
             'count': 13,

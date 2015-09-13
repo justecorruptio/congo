@@ -91,7 +91,7 @@ class Session(Model):
 
         game = cls.db.query("""
             SELECT
-                g.id AS game_id,
+                g.id AS id,
                 g.current_seq AS current_seq,
                 p.color AS player_color
             FROM Games g

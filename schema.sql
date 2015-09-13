@@ -45,5 +45,6 @@ CREATE TABLE Votes (
     `seq` smallint unsigned NOT NULL,
     `move` varchar(5) NOT NULL,
     `notes` varchar(1024) NOT NULL DEFAULT '',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `game_id_user_id_seq_idx` (`game_id`, `user_id`, `seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

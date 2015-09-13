@@ -45,3 +45,29 @@ class Model(object):
             cls.table_name,
             **kwargs
         )
+
+    @classmethod
+    def insert_or_update(cls, keys, **kwargs):
+        not_keys = list(set(kwargs.keys()) - set(keys))
+
+        criteria = dict((k, kwargs[k]) for k in keys)
+        to_change = dict((k, kwargs[k]) for k in not_keys)
+
+        result = cls.get(**criteria)
+
+        if result:
+            where = ' AND '.join(
+                '%s=$%s' % (n, n)
+                for n in keys
+            )
+            cls.db.update(
+                cls.table_name,
+                where,
+                vars=criteria,
+                **to_change
+            )
+            return True
+        else:
+            cls.insert(**kwarg)
+            return True
+

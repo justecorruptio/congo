@@ -40,3 +40,8 @@ class Game(Model):
 class Player(Model):
 
     table_name = 'Players'
+
+
+class Vote(Model):
+
+    table_name = 'Votes'

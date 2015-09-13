@@ -41,3 +41,14 @@ LoginForm = form.Form(
         ),
     ],
 )
+
+VoteForm = form.Form(
+    form.Textbox('pos'),
+    form.Textbox('notes'),
+    validators=[
+        form.Validator(
+            'Notes cannot exceed 1000 characters.',
+            lambda i: len(i.notes) < 1000,
+        ),
+    ],
+)

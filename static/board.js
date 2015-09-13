@@ -133,6 +133,8 @@ $(function() {
             $('.congo-vote-dialog').removeClass('congo-vote-dialog-bottom');
         }
 
+        $('#congo-vote-form input[name="pos"]').val(pos);
+
         var $modal = $('#congo-vote-modal');
 
         $.getJSON('/api/game_votes/' + pos).done(function(data) {
@@ -150,8 +152,22 @@ $(function() {
         }).error(function() {
             alert('Error.'); //TODO: make better;
         });
-
     }
+
+    $("#congo-vote-form").submit(function(event) {
+        event.preventDefault();
+        $.post(
+            "/api/vote",
+            $(this).serialize()
+        ).done(function(data) {
+            var $modal = $('#congo-vote-modal');
+            $modal.modal('hide');
+            sync_game();
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
+        });
+        return false;
+    });
 
     function sync_game() {
         $.getJSON('/api/game_state')

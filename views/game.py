@@ -30,4 +30,13 @@ class GameStateView(object):
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ],
+            'illegal': ['bb'],
+            'info': "Black's turn. Captures: Black 3, White 7",
+            'votes': [
+                {
+                    'pos': 'dd',
+                    'count': 12,
+                    'label': 'A',
+                },
+            ],
         })

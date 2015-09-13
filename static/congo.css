@@ -43,6 +43,10 @@ html, body {
     background-color: transparent;
 }
 
+.v-pad-1 {
+    margin-top: 10px;
+}
+
 .header-offset {
     height: 65px;
 }

@@ -1,9 +1,5 @@
-sgf {
-    width: 100%;
-}
-
 .sgf-container {
-    max-width: 600px;
+    max-width: 470px;
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -14,7 +10,8 @@ sgf {
 
     line-height: 1.1;
 
-    text-align: left;
+    text-align: center;
+    margin: auto;
 }
 
 .sgf-board-wrapper {
@@ -201,9 +198,9 @@ sgf {
     height: 70%!important;
     border: 0px solid #cb4582!important;
     background-color: rgba(0, 0, 0, 0)!important;
-    top: 0!important;
-    left: -2!important;
-    bottom: 0!important;
+    /*top: 0!important;*/
+    left: 0!important;
+    bottom: 2!important;
     right: 0!important;
     margin: auto!important;
     text-align: center;
@@ -211,7 +208,7 @@ sgf {
     /*font-weight:bold;*/
     /*text-shadow: 0px 1px #eeeeee, 0px -1px #eeeeee,
         1px 0px #eeeeee, -1px 0px #eeeeee;*/
-    font-size: 15px!important;
+    /*font-size: 15px!important;*/
     white-space:nowrap;
     font-family: arial, arialMT, Helvetica, sans-serif;
     letter-spacing: -1px;
@@ -231,23 +228,30 @@ sgf {
     color: #cb0082!important;
 }
 
-@media screen and (max-width: 720px){
+/*@media screen and (max-width: 720px){*/
+@media screen and (max-width: 99999px){
     .sgf-coord:after {
-        font-size: 14px!important;
-        height: 60%!important;
+        font-size: 18px!important;
+        height: 70%!important;
+    }
+}
+
+@media screen and (min-width: 992px){
+    .sgf-container {
+        max-width: 9999 !important;
     }
 }
 
 @media screen and (max-width: 500px){
     .sgf-coord:after {
-        font-size: 12px!important;
+        font-size: 15px!important;
         height: 70%!important;
     }
 }
 
 @media screen and (max-width: 380px){
     .sgf-coord:after {
-        font-size: 10px!important;
-        height: 85%!important;
+        font-size: 12px!important;
+        height: 70%!important;
     }
 }

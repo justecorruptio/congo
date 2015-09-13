@@ -61,12 +61,13 @@ class Session(Model):
 
         cookies = web.cookies()
         user_id = cookies.get(settings.COOKIE_KEY_USER_ID)
+        nonce = cookies.get(settings.COOKIE_KEY_NONCE)
         if user_id is None:
             return False, None
-        session = cls.get(user_id=user_id)
 
-        nonce = cookies.get(settings.COOKIE_KEY_USER_ID)
-        if nonce != session.nonce:
+        session = cls.get(user_id=user_id)
+        session_nonce = json.loads(session.data).get('nonce')
+        if nonce != session_nonce:
             return False, None
 
         return True, user_id

@@ -14,7 +14,7 @@ $(function() {
             "/login",
             $(this).serialize()
         ).done(function(data) {
-            alert(data);
+            window.location = '/';
         }).fail(function(jqXHR, textStatus, errorThrown) {
             alert(jqXHR.responseText);
         });
@@ -27,7 +27,7 @@ $(function() {
             "/signup",
             $(this).serialize()
         ).done(function(data) {
-            alert(data);
+            window.location = '/';
         }).fail(function(jqXHR, textStatus, errorThrown) {
             alert(jqXHR.responseText);
         });

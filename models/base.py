@@ -68,6 +68,6 @@ class Model(object):
             )
             return True
         else:
-            cls.insert(**kwarg)
-            return True
+            cls.insert(**kwargs)
+            return False
 

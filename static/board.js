@@ -241,7 +241,7 @@ $(function() {
         if (sync_game_interval != 'stopped') {
             return;
         }
-        sync_game_interval = window.setInterval(sync_game, 5 * 1000);
+        sync_game_interval = window.setInterval(sync_game, 5 * 60 * 1000);
     }
 
     function stop_sync() {

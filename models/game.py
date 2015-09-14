@@ -87,13 +87,14 @@ class Vote(Model):
     def summary(cls, game_id, seq):
         vote_counts = cls.db.query("""
             SELECT
-                move,
+                v.move,
                 SUM(1) as cnt
-            FROM Votes
-            WHERE game_id = $game_id
-            AND seq = $seq
-            GROUP BY move
-            ORDER BY cnt DESC
+            FROM Votes v
+            JOIN Users u ON u.id = v.user_id
+            WHERE v.game_id = $game_id
+            AND v.seq = $seq
+            GROUP BY v.move
+            ORDER BY cnt DESC, SUM(u.rating) DESC
             LIMIT 7
         """, vars={
             'game_id': game_id,

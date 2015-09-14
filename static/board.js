@@ -33,6 +33,14 @@ $(function() {
                     var pos = $(this).data('pos');
                     start_vote(pos);
                 });
+                if(j == board_size - 1) {
+                    $sgf_cell.append($('<div class=sgf-num-right num="' +
+                        (board_size - i) + '"></div>'));
+                }
+                if(i == board_size - 1) {
+                    $sgf_cell.append($('<div class=sgf-num-bottom num="' +
+                        ("ABCDEFGHJKLMNOPQRST"[j]) + '"></div>'));
+                }
                 $sgf_row.append($sgf_cell);
             }
             $sgf_board.append($sgf_row);

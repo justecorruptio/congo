@@ -76,10 +76,35 @@ $(function() {
     }
 
     function redraw_data_pane(data) {
+
+        var $turn_info = $('.turn-info');
+        var player_color_str = game_info.player_color == 1 ? "black" : "white";
+        var your_turn_str
+        if (game_info.voted_move) {
+            your_turn_str = "You've voted.";
+        }
+        else {
+            your_turn_str = "It's " +
+                (game_info.your_turn == 1 ? "" : "<b>not</b> ") +
+                'your turn.';
+        }
+
+        var info_str = "You're " + player_color_str + '. ' + your_turn_str;
+        $turn_info.html(info_str);
+
+
+        if(!game_info.your_turn) {
+            return;
+        }
+        var board_votes = data['votes'];
+
+        if(board_votes.length > 0) {
+            $('.congo-top-votes-panel').show();
+        }
+
         var $votes_table = $('.congo-votes-table');
         $votes_table.empty()
 
-        var board_votes = data['votes'];
         for(var i = 0; i < board_votes.length; i++) {
             var vote = board_votes[i];
             var $tr = $('<tr>' +
@@ -96,21 +121,6 @@ $(function() {
             });
         }
 
-        var $turn_info = $('.turn-info');
-        var player_color_str = game_info.player_color == 1 ? "black" : "white";
-        var your_turn_str
-        if (game_info.voted_move) {
-            your_turn_str = "You've voted.";
-        }
-        else {
-            your_turn_str = "It's " +
-                (game_info.your_turn == 1 ? "" : "<b>not</b> ") +
-                'your turn.';
-        }
-
-        var info_str = "You're " + player_color_str + '. ' + your_turn_str;
-
-        $turn_info.html(info_str);
     }
 
     function redraw_votes_others(data) {

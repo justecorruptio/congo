@@ -94,6 +94,7 @@ class Session(Model):
                 g.id AS id,
                 g.current_seq AS current_seq,
                 p.color AS player_color,
+                IF(g.current_seq % 2 = p.color % 2, 1, 0) AS your_turn,
                 v.move AS voted_move
             FROM Games g
             JOIN Players p

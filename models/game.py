@@ -82,3 +82,21 @@ class Vote(Model):
             'move': move,
         })
         return votes
+
+    @classmethod
+    def summary(cls, game_id, seq):
+        vote_counts = cls.db.query("""
+            SELECT
+                move,
+                SUM(1) as cnt
+            FROM Votes
+            WHERE game_id = $game_id
+            AND seq = $seq
+            GROUP BY move
+            ORDER BY cnt DESC
+            LIMIT 7
+        """, vars={
+            'game_id': game_id,
+            'seq': seq,
+        })
+        return vote_counts

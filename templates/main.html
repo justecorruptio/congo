@@ -5,10 +5,9 @@ $var deferjs:
         var game_info = {
             player_color: $:{ web.ctx.game.player_color },
             current_seq: $:{ web.ctx.game.current_seq },
-            voted_move: '$:{ web.ctx.game.voted_move }'
+            voted_move: '$:{ web.ctx.game.voted_move }',
+            your_turn: $:{ web.ctx.game.your_turn }
         };
-        game_info['your_turn'] =
-            game_info['player_color'] % 2 == game_info['current_seq'] % 2
     </script>
     <script src="/static/board.js"></script>
 
@@ -17,6 +16,7 @@ $:render.header()
 <div class="container">
 <div class="row">
 
+<!--BOARD-->
 <div class="col-xs-12 col-sm-8 col-md-7 col-lg-6 col-lg-offset-1">
 
 <div class="row"><div class="col-xs-12">
@@ -42,6 +42,7 @@ $:render.header()
 </div>
 
 
+<!-- RIGHT COLUMN -->
 <div class="col-xs-12 col-sm-4 col-md-5 col-lg-4">
     <div class="panel panel-default">
         <div class="panel-body">
@@ -49,7 +50,7 @@ $:render.header()
         </div>
     </div>
 
-    <div class="panel panel-default hidden-xs">
+    <div class="panel panel-default hidden-xs congo-top-votes-panel" style="display:none;">
         <div class="panel-heading">
             <h3 class="panel-title">Top Votes</h3>
         </div>

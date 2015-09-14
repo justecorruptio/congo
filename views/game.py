@@ -12,8 +12,21 @@ class GameStateView(object):
 
     @require_login
     def GET(self):
+        if web.ctx.game.your_turn:
+            vote_counts = Vote.summary(web.ctx.game.id, web.ctx.game.current_seq)
+            top_votes = [
+                {
+                    'pos': vote.move,
+                    'count': int(vote.cnt),
+                    'label': chr(i + 65),
+                }
+                for i, vote in enumerate(vote_counts)
+            ]
+        else:
+            top_votes = []
+        turn = web.ctx.game.current_seq == 1 and "Black" or "White"
         return json.dumps({
-            'id': 1,
+            'id': web.ctx.game.id,
             'board_size': 19,
             'board': [
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -37,16 +50,8 @@ class GameStateView(object):
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ],
             'illegal': ['bb', 'cs'],
-            'info': "Black's turn. Captures: Black 3, White 7",
-            'votes': [
-                {'pos': 'dd', 'count': 72, 'label': 'A'},
-                {'pos': 'pd', 'count': 23, 'label': 'B'},
-                {'pos': 'pp', 'count': 12, 'label': 'C'},
-                {'pos': 'dc', 'count': 5, 'label': 'D'},
-                {'pos': 'eg', 'count': 4, 'label': 'E'},
-                {'pos': 'pf', 'count': 2, 'label': 'F'},
-                {'pos': 'jj', 'count': 1, 'label': 'G'},
-            ],
+            'info': "%s's turn. Captures: Black 3, White 7" % (turn,),
+            'votes': top_votes,
         })
 
 
@@ -56,7 +61,7 @@ class VoteView(object):
         form = VoteForm()
         if not form.validates():
             raise web.notfound(form.note)
-        if web.ctx.game.current_seq % 2 != web.ctx.game.player_color % 2:
+        if not web.ctx.game.your_turn:
             raise web.notfound("It's not your turn!")
         Vote.insert_or_update(
             ('game_id', 'user_id', 'seq'),

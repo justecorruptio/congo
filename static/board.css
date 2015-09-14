@@ -251,7 +251,7 @@
     left: 0;
     bottom: 0;
     right: 0;
-    border: solid 2px #FF0000;
+    border: solid 2px #FF0000!important;
 }
 
 .sgf-voted:before {

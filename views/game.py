@@ -3,6 +3,7 @@ import web
 
 from forms import VoteForm
 from models import (
+    Pretty,
     Vote,
 )
 from views.utils import require_login
@@ -71,20 +72,17 @@ class VoteView(object):
 class GameVotesView(object):
     @require_login
     def GET(self, pos):
+        count = Vote.count(web.ctx.game.id, web.ctx.game.current_seq, pos)
+        votes = Vote.details(web.ctx.game.id, web.ctx.game.current_seq, pos)
         return json.dumps({
-            'count': 13,
+            'display_pos': Pretty.pos(pos),
+            'count': count,
             'votes': [
-                {'name': 'Bob', 'rating': '2D', 'notes': """
-                    This is a standard way to reduce the side
-                    of the board so that the opponent is weakened.
-                """},
-                {'name': 'Tom', 'rating': '7k', 'notes': """
-                    Who care why this is good. It is a Hote move.
-                """},
-                {'name': 'Max', 'rating': '12k', 'notes': """
-                    I'm a very dilligent writer who writes very long
-                    things about anything although I usually nver really
-                    make any sense at all an i mispell things.
-                """},
+                {
+                    'name': vote.name,
+                    'rating': Pretty.rating(vote.rating),
+                    'notes': vote.notes,
+                }
+                for vote in votes
             ],
         })

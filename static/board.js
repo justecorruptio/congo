@@ -107,6 +107,7 @@ $(function() {
             $votes_others.append($('<dt>' + vote.name + ' (' + vote.rating + ')</dt>'));
             $votes_others.append($('<dd>' + vote.notes + '</dd>'));
         }
+        $('.congo-vote-count').text(data.count);
     }
 
     function start_vote(pos) {

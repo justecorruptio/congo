@@ -3,6 +3,7 @@ import web
 
 from forms import VoteForm
 from models import (
+    GameState,
     Pretty,
     Vote,
 )
@@ -18,39 +19,28 @@ class GameStateView(object):
                 {
                     'pos': vote.move,
                     'count': int(vote.cnt),
-                    'label': chr(i + 65),
+                    'label': vote.move != 'tt' and chr(i + 65) or 'Pass',
                 }
                 for i, vote in enumerate(vote_counts)
             ]
         else:
             top_votes = []
-        turn = web.ctx.game.current_seq == 1 and "Black" or "White"
+        turn = web.ctx.game.current_seq % 2 == 1 and "Black" or "White"
+        game_state = GameState.get(
+            game_id=web.ctx.game.id,
+            seq=web.ctx.game.current_seq - 1,
+        )
         return json.dumps({
             'id': web.ctx.game.id,
+            'current_seq': web.ctx.game.current_seq,
             'board_size': 19,
-            'board': [
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            ],
-            'illegal': ['bb', 'cs'],
-            'info': "%s's turn. Captures: Black 3, White 7" % (turn,),
+            'board': json.loads(game_state.board),
+            'illegal': json.loads(game_state.illegal),
+            'info': "%s's turn. Captures: Black %s, White %s" % (
+                turn,
+                game_state.black_captures,
+                game_state.white_captures,
+            ),
             'votes': top_votes,
         })
 

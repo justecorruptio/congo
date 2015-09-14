@@ -77,6 +77,12 @@ $(function() {
 
     function redraw_data_pane(data) {
 
+        if(game_info.current_seq != data.current_seq) {
+            game_info.current_seq = data.current_seq;
+            game_info.voted_move = null;
+            game_info.your_turn = game_info.player_color % 2 == game_info.current_seq %2;
+        }
+
         var $turn_info = $('.turn-info');
         var player_color_str = game_info.player_color == 1 ? "black" : "white";
         var your_turn_str
@@ -100,6 +106,9 @@ $(function() {
 
         if(board_votes.length > 0) {
             $('.congo-top-votes-panel').show();
+        }
+        else{
+            $('.congo-top-votes-panel').hide();
         }
 
         var $votes_table = $('.congo-votes-table');
@@ -130,7 +139,9 @@ $(function() {
         for(var i = 0; i < votes.length; i++) {
             var vote = votes[i];
             $votes_others.append($('<dt>' + vote.name + ' (' + vote.rating + ')</dt>'));
-            $votes_others.append($('<dd>' + vote.notes + '</dd>'));
+            var $dd = $('<dd></dd>');
+            $dd.text(vote.notes);
+            $votes_others.append($dd);
         }
         $('.congo-vote-count').text(data.count);
     }
@@ -192,6 +203,8 @@ $(function() {
                 else {
                     $('.pass-button').removeClass('pass-vote');
                 }
+                $('#congo-vote-form input[name="pos"]').val('');
+                $('#congo-vote-form textarea[name="notes"]').val('');
                 start_sync();
             });
         }).error(function() {
@@ -208,8 +221,6 @@ $(function() {
         ).done(function(data) {
             var $modal = $('#congo-vote-modal');
             $modal.modal('hide');
-            $('#congo-vote-form input[name="pos"]').val('');
-            $('#congo-vote-form input[name="notes"]').val('');
             game_info.voted_move = pos;
             sync_game();
         }).fail(function(jqXHR, textStatus, errorThrown) {
@@ -230,7 +241,7 @@ $(function() {
         if (sync_game_interval != 'stopped') {
             return;
         }
-        sync_game_interval = window.setInterval(sync_game, 5 * 60 * 1000);
+        sync_game_interval = window.setInterval(sync_game, 5 * 1000);
     }
 
     function stop_sync() {

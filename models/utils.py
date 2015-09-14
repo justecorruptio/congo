@@ -1,6 +1,9 @@
 class Pretty(object):
     @staticmethod
     def pos(pos):
+        if pos == 'tt':
+            return 'Pass'
+
         x, y = [ord(p) - 97 for p in pos]
         return '%s%s' % (
             'ABCDEFGHJKLMNOPQRST'[x],

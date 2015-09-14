@@ -53,6 +53,13 @@ html, body {
     margin-top: 10px;
 }
 
+@-moz-document url-prefix() {
+    .ff-board-info-fix {
+        /* firefox renders board correctly, which isn't normal */
+        margin-top: 20px !important;
+    }
+}
+
 .header-offset {
     height: 65px;
 }

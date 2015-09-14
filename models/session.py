@@ -93,13 +93,18 @@ class Session(Model):
             SELECT
                 g.id AS id,
                 g.current_seq AS current_seq,
-                p.color AS player_color
+                p.color AS player_color,
+                v.move AS voted_move
             FROM Games g
-            JOIN Players p ON p.game_id = g.id
+            JOIN Players p
+                ON p.game_id = g.id
+            LEFT JOIN Votes v
+                ON v.game_id = g.id
+                AND v.user_id = p.user_id
+                AND v.seq = g.current_seq
             WHERE g.status = 10
             AND p.user_id = $user_id
             LIMIT 1
         """, vars={'user_id': user_id})
-
 
         web.ctx.game = game[0]

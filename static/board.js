@@ -64,6 +64,13 @@ $(function() {
             $sgf_point.addClass('sgf-coord');
         }
 
+        if (game_info.voted_move) {
+            var $sgf_cell = $('.sgf-cell-' + game_info.voted_move);
+            var $sgf_point = $sgf_cell.find('.sgf-point')
+            $sgf_point.removeClass('sgf-empty');
+            $sgf_point.addClass('sgf-voted');
+        }
+
         var $board_info = $('.congo-board-info');
         $board_info.text(data['info']);
     }
@@ -91,9 +98,17 @@ $(function() {
 
         var $turn_info = $('.turn-info');
         var player_color_str = game_info.player_color == 1 ? "black" : "white";
-        var your_turn_str = game_info.your_turn == 1 ? "" : "<b>not</b> ";
-        var info_str = "You're " + player_color_str + '. ' +
-            "It's " + your_turn_str + 'your turn.';
+        var your_turn_str
+        if (game_info.voted_move) {
+            your_turn_str = "You've voted.";
+        }
+        else {
+            your_turn_str = "It's " +
+                (game_info.your_turn == 1 ? "" : "<b>not</b> ") +
+                'your turn.';
+        }
+
+        var info_str = "You're " + player_color_str + '. ' + your_turn_str;
 
         $turn_info.html(info_str);
     }
@@ -123,7 +138,10 @@ $(function() {
 
             var $sgf_point = $sgf_cell.find('.sgf-point');
 
-            if(!$sgf_point.hasClass('sgf-empty')) {
+            if(
+                !($sgf_point.hasClass('sgf-empty') ||
+                $sgf_point.hasClass('sgf-voted'))
+            ) {
                 return false;
             }
             $sgf_point.removeClass('sgf-empty');
@@ -142,12 +160,19 @@ $(function() {
             $('.congo-vote-dialog').removeClass('congo-vote-dialog-bottom');
         }
 
+        if( game_info.voted_move ) {
+            $('.congo-cast-word').text('Update');
+        }
+        else {
+            $('.congo-cast-word').text('Cast');
+        }
         $('#congo-vote-form input[name="pos"]').val(pos);
 
         var $modal = $('#congo-vote-modal');
 
         $.getJSON('/api/game_votes/' + pos).done(function(data) {
             redraw_votes_others(data);
+            stop_sync();
             $modal.modal('show');
             $modal.on('hide.bs.modal', function(event) {
                 if(pos != 'tt') {
@@ -157,6 +182,7 @@ $(function() {
                 else {
                     $('.pass-button').removeClass('pass-vote');
                 }
+                start_sync();
             });
         }).error(function() {
             alert('Error.'); //TODO: make better;
@@ -164,6 +190,7 @@ $(function() {
     }
 
     $("#congo-vote-form").submit(function(event) {
+        var pos = $('#congo-vote-form input[name="pos"]').val();
         event.preventDefault();
         $.post(
             "/api/vote",
@@ -171,6 +198,9 @@ $(function() {
         ).done(function(data) {
             var $modal = $('#congo-vote-modal');
             $modal.modal('hide');
+            $('#congo-vote-form input[name="pos"]').val('');
+            $('#congo-vote-form input[name="notes"]').val('');
+            game_info.voted_move = pos;
             sync_game();
         }).fail(function(jqXHR, textStatus, errorThrown) {
             alert(jqXHR.responseText);
@@ -181,14 +211,28 @@ $(function() {
     function sync_game() {
         $.getJSON('/api/game_state')
         .done(function(data) {
-            gData = data;
             redraw_board(data);
             redraw_data_pane(data);
         });
     }
 
-    r = redraw_board;
+    function start_sync() {
+        if (sync_game_interval != 'stopped') {
+            return;
+        }
+        sync_game_interval = window.setInterval(sync_game, 5 * 60 * 1000);
+    }
 
+    function stop_sync() {
+        if (sync_game_interval == 'stopped') {
+            return;
+        }
+        clearInterval(sync_game_interval);
+        sync_game_interval = 'stopped';
+    }
+
+    sync_game_interval = 'stopped';
+    start_sync();
     sync_game();
 
 });

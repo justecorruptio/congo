@@ -4,7 +4,8 @@ $var deferjs:
     <script>
         var game_info = {
             player_color: $:{ web.ctx.game.player_color },
-            current_seq: $:{ web.ctx.game.current_seq }
+            current_seq: $:{ web.ctx.game.current_seq },
+            voted_move: '$:{ web.ctx.game.voted_move }'
         };
         game_info['your_turn'] =
             game_info['player_color'] % 2 == game_info['current_seq'] % 2
@@ -76,7 +77,7 @@ $:render.header()
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Cast Vote</h4>
+                <h4 class="modal-title"><span class="congo-cast-word"></span> Vote</h4>
             </div>
             <div class="modal-body">
                 $:render.vote()

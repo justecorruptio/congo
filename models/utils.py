@@ -1,7 +1,7 @@
 class Pretty(object):
     @staticmethod
     def pos(pos):
-        y, x = [ord(p) - 97 for p in pos]
+        x, y = [ord(p) - 97 for p in pos]
         return '%s%s' % (
             'ABCDEFGHJKLMNOPQRST'[x],
             19 - y,

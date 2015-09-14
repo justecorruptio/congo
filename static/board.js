@@ -19,7 +19,7 @@ $(function() {
                 }
 
                 var color = board_data[i][j];
-                var pos = String.fromCharCode(97 + i, 97 + j);
+                var pos = String.fromCharCode(97 + j, 97 + i);
                 $sgf_point.addClass({
                     0: 'sgf-empty',
                     1: 'sgf-black',

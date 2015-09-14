@@ -100,3 +100,8 @@ class Vote(Model):
             'seq': seq,
         })
         return vote_counts
+
+
+class GameState(Model):
+
+    table_name = 'Game_States'

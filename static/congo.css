@@ -47,6 +47,8 @@ html, body {
     position: fixed;
     right: 15px;
     bottom: 15px;
+    font-size: 10px;
+    color: #eeeeee;
 }
 
 .v-pad-1 {

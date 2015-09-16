@@ -10,6 +10,7 @@ from models import (
     Vote,
 )
 
+GNUGO_PATH = '/usr/games/gnugo'
 DEFAULT_SGF = '(;GM[1]FF[4]SZ[19]KM[6.5]HA[0]RU[Japanese]PL[B])'
 
 def call_gnugo(sgf, seq, move):
@@ -27,10 +28,11 @@ def call_gnugo(sgf, seq, move):
 
     cmd = """
         printf 'play %s %s\\ncaptures b\\ncaptures w\\nprintsgf' |
-        gnugo --mode=gtp -l %s
+        %s --mode=gtp -l %s
     """ % (
         color,
         Pretty.pos(move),
+        GNUGO_PATH,
         sgf_file.name,
     )
     gnugo = os.popen(cmd)

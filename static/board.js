@@ -232,8 +232,8 @@ $(function() {
     function sync_game() {
         $.getJSON('/api/game_state')
         .done(function(data) {
-            redraw_board(data);
             redraw_data_pane(data);
+            redraw_board(data);
         });
     }
 
@@ -241,7 +241,7 @@ $(function() {
         if (sync_game_interval != 'stopped') {
             return;
         }
-        sync_game_interval = window.setInterval(sync_game, 5 * 60 * 1000);
+        sync_game_interval = window.setInterval(sync_game, 1 * 60 * 1000);
     }
 
     function stop_sync() {

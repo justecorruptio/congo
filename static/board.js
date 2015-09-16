@@ -214,6 +214,16 @@ $(function() {
     }
 
     $("#congo-vote-form").submit(function(event) {
+        var $notes = $('#congo-vote-form textarea[name="notes"]');
+        if($notes.val().length == 0) {
+            alert("A note is required.");
+            return false;
+        }
+        else if($notes.val().length < 20) {
+            alert("Please make your note a little longer. This will help " +
+            "weaker players get better at the game.");
+            return false;
+        }
         var pos = $('#congo-vote-form input[name="pos"]').val();
         event.preventDefault();
         $.post(

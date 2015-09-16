@@ -35,6 +35,17 @@ html, body {
     overflow: hidden;
 }
 
+.congo-info, .congo-info:visited, .congo-info:focus, .congo-info:hover {
+    color: #9d9d9d!important;
+    outline: none;
+}
+
+.congo-learn-more, .congo-learn-more:visited, .congo-learn-more:focus {
+    color: #eeeeee;
+    outline: none;
+    text-decoration: underline;
+}
+
 .congo-hero > .container {
     position: absolute;
     top: 30%;

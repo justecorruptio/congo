@@ -87,15 +87,16 @@ $(function() {
         var player_color_str = game_info.player_color == 1 ? "black" : "white";
         var your_turn_str
         if (game_info.voted_move) {
-            your_turn_str = "You've voted.";
+            your_turn_str = "You've voted. ";
         }
         else {
             your_turn_str = "It's " +
                 (game_info.your_turn == 1 ? "" : "<b>not</b> ") +
-                'your turn.';
+                'your turn. ';
         }
 
-        var info_str = "You're " + player_color_str + '. ' + your_turn_str;
+        var info_str = "You're " + player_color_str + '. ' + your_turn_str +
+            "Turns end midnight.";
         $turn_info.html(info_str);
 
 

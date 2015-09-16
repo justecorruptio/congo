@@ -173,7 +173,7 @@ $(function() {
             $('.pass-button').addClass('pass-vote');
         }
 
-        var y = pos.charCodeAt(0) - 97;
+        var y = pos.charCodeAt(1) - 97;
 
         if (y < 15) {
             $('.congo-vote-dialog').addClass('congo-vote-dialog-bottom');

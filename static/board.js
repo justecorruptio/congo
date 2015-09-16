@@ -96,7 +96,7 @@ $(function() {
         }
 
         var info_str = "You're " + player_color_str + '. ' + your_turn_str +
-            "Turns end midnight PST.";
+            "Turn ends in " + data['time_left'];
         $turn_info.html(info_str);
 
 

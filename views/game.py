@@ -1,6 +1,8 @@
 import json
+import time
 import web
 
+import settings
 from forms import VoteForm
 from models import (
     GameState,
@@ -13,6 +15,14 @@ class GameStateView(object):
 
     @require_login
     def GET(self):
+        now = time.localtime()
+        hours_left = 23 - now.tm_hour
+        mins_left = 59 - now.tm_min
+        if hours_left > 0:
+            time_left = "%d hours." % (hours_left,)
+        else:
+            time_left = "%d mins." % (mins_left,)
+
         if web.ctx.game.your_turn:
             vote_counts = Vote.summary(web.ctx.game.id, web.ctx.game.current_seq)
             top_votes = [
@@ -42,6 +52,7 @@ class GameStateView(object):
                 game_state.white_captures,
             ),
             'votes': top_votes,
+            'time_left': time_left,
         })
 
 

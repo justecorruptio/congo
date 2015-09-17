@@ -335,13 +335,13 @@
 @media screen and (max-width: 500px){
     .sgf-coord:after {
         font-size: 15px!important;
-        height: 70%!important;
+        height: 77%!important;
     }
 }
 
 @media screen and (max-width: 380px){
     .sgf-coord:after {
         font-size: 12px!important;
-        height: 70%!important;
+        height: 80%!important;
     }
 }

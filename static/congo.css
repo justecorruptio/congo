@@ -101,6 +101,10 @@ html, body {
     }
 }
 
+.congo-stats-container {
+    width: 100%;
+}
+
 textarea {
     resize: none;
 }

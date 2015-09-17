@@ -41,6 +41,23 @@ class Player(Model):
 
     table_name = 'Players'
 
+    @classmethod
+    def game_stats(cls, game_id):
+        players = cls.db.query("""
+            SELECT
+                u.name AS name,
+                u.rating AS rating,
+                p.color AS color
+            FROM Players p
+            JOIN Users u ON u.id = p.user_id
+            WHERE p.game_id = $game_id
+            ORDER BY u.rating DESC
+        """, vars={
+            'game_id': game_id,
+        })
+        return players
+
+
 
 class Vote(Model):
 
@@ -102,6 +119,16 @@ class Vote(Model):
         })
         return vote_counts
 
+    @classmethod
+    def game_stats(cls, game_id):
+        count = cls.db.query("""
+            SELECT SUM(1) AS count
+            FROM Votes
+            WHERE game_id = $game_id
+        """, vars={
+            'game_id': game_id,
+        })[0].count
+        return int(count)
 
 class GameState(Model):
 

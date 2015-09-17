@@ -10,6 +10,7 @@ from .login import (
     SignUpView,
 )
 from .sgf import SgfDownloadView
+from .stats import StatsView
 
 views = globals()
 
@@ -21,5 +22,6 @@ urls = (
     "/api/game_votes/(.+)", "GameVotesView",
     "/api/vote", "VoteView",
     "/sgf", "SgfDownloadView",
+    "/stats", "StatsView",
     "/", "IndexView",
 )

@@ -91,6 +91,7 @@ class Vote(Model):
             WHERE v.game_id = $game_id
             AND v.seq = $seq
             AND v.move = $move
+            AND v.notes != ''
             ORDER BY u.rating DESC
             LIMIT 5
         """, vars={

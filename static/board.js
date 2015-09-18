@@ -72,7 +72,7 @@ $(function() {
         }
 
         var $board_info = $('.congo-board-info');
-        $board_info.text(data['info']);
+        $board_info.html(data['info']);
     }
 
     function redraw_data_pane(data) {

@@ -72,6 +72,7 @@ class VoteView(object):
             seq=web.ctx.game.current_seq,
             move=form.d.pos,
             notes=form.d.notes,
+            ip_address=web.ctx.ip,
         )
 
 

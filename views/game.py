@@ -18,10 +18,7 @@ class GameStateView(object):
         now = time.localtime()
         hours_left = 23 - now.tm_hour
         mins_left = 59 - now.tm_min
-        if hours_left > 0:
-            time_left = "%dh." % (hours_left,)
-        else:
-            time_left = "%dm." % (mins_left,)
+        time_left = "%dh %dm." % (hours_left, mins_left)
 
         if web.ctx.game.your_turn:
             vote_counts = Vote.summary(web.ctx.game.id, web.ctx.game.current_seq)

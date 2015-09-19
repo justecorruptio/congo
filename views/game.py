@@ -8,6 +8,7 @@ from models import (
     GameState,
     Pretty,
     Vote,
+    SystemMessage,
 )
 from views.utils import require_login
 
@@ -18,7 +19,7 @@ class GameStateView(object):
         now = time.localtime()
         hours_left = 23 - now.tm_hour
         mins_left = 59 - now.tm_min
-        time_left = "%dh %dm." % (hours_left, mins_left)
+        time_left = "%02d:%02d" % (hours_left, mins_left)
 
         if web.ctx.game.your_turn:
             vote_counts = Vote.summary(web.ctx.game.id, web.ctx.game.current_seq)
@@ -37,6 +38,11 @@ class GameStateView(object):
             game_id=web.ctx.game.id,
             seq=web.ctx.game.current_seq - 1,
         )
+
+        system_message = SystemMessage.get()
+        if system_message:
+            system_message = system_message.message
+
         return json.dumps({
             'id': web.ctx.game.id,
             'current_seq': web.ctx.game.current_seq,
@@ -51,6 +57,7 @@ class GameStateView(object):
             ),
             'votes': top_votes,
             'time_left': time_left,
+            'system_message': system_message,
         })
 
 

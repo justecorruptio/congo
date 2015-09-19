@@ -131,6 +131,12 @@ class Vote(Model):
         })[0].count
         return int(count)
 
+
 class GameState(Model):
 
     table_name = 'Game_States'
+
+
+class SystemMessage(Model):
+
+    table_name = 'System_Message'

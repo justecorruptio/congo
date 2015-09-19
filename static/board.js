@@ -100,9 +100,6 @@ $(function() {
         $turn_info.html(info_str);
 
 
-        if(!game_info.your_turn) {
-            return;
-        }
         var board_votes = data['votes'];
 
         if(board_votes.length > 0) {
@@ -110,6 +107,10 @@ $(function() {
         }
         else{
             $('.congo-top-votes-panel').hide();
+        }
+
+        if(!game_info.your_turn) {
+            return;
         }
 
         var $votes_table = $('.congo-votes-table');
@@ -130,7 +131,17 @@ $(function() {
                 return false;
             });
         }
+    }
 
+    function redraw_system_message(data) {
+        var message = data['system_message'];
+        if(message) {
+            $('.congo-system-message').html(message);
+            $('.congo-system-message-panel').show();
+        }
+        else {
+            $('.congo-system-message-panel').hide();
+        }
     }
 
     function redraw_votes_others(data) {
@@ -236,6 +247,7 @@ $(function() {
         .done(function(data) {
             redraw_data_pane(data);
             redraw_board(data);
+            redraw_system_message(data);
         });
     }
 

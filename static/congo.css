@@ -57,7 +57,7 @@ html, body {
 .congo-footer {
     position: fixed;
     right: 15px;
-    bottom: 15px;
+    bottom: 10px;
     font-size: 10px;
     color: #eeeeee;
 }
@@ -105,6 +105,8 @@ html, body {
     width: 100%;
 }
 
+/* bootstrap overrides */
+
 textarea {
     resize: none;
 }
@@ -115,4 +117,17 @@ form {
 
 dd {
     margin-bottom: .25em;
+}
+
+.panel {
+    margin-bottom: 10px;
+}
+
+.panel-body {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.table>tbody>tr>td {
+    padding-left: 15px;
 }

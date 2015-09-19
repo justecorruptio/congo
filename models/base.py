@@ -15,7 +15,7 @@ class Model(object):
         )
         return cls.db.select(
             cls.table_name,
-            where=where,
+            where=where or None,
             vars=kwargs,
         )
 

@@ -63,3 +63,10 @@ CREATE TABLE Game_States (
     PRIMARY KEY (`id`),
     UNIQUE INDEX `game_id_seq_idx` (`game_id`, `seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE System_Message (
+    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+    `created` timestamp NOT NULL default current_timestamp,
+    `message` text,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

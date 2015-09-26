@@ -23,8 +23,11 @@ class Game(Model):
             teams = Player.db.query("""
                 SELECT color AS color, SUM(1) AS cnt
                 FROM Players
+                WHERE game_id = $game_id
                 GROUP BY color
-            """)
+            """, vars={
+                'game_id': game.id,
+            })
             teams = dict((x.color, x.cnt) for x in teams)
             teams = [(teams.get(x, 0), x) for x in (1, 2)]
             teams.sort()

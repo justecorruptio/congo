@@ -96,7 +96,7 @@ class Vote(Model):
             AND v.move = $move
             AND v.notes != ''
             ORDER BY u.rating DESC
-            LIMIT 5
+            LIMIT 20
         """, vars={
             'game_id': game_id,
             'seq': seq,
@@ -116,7 +116,7 @@ class Vote(Model):
             AND v.seq = $seq
             GROUP BY v.move
             ORDER BY cnt DESC, SUM(u.rating) DESC
-            LIMIT 20
+            LIMIT 7
         """, vars={
             'game_id': game_id,
             'seq': seq,

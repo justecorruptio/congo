@@ -41,8 +41,13 @@ html, body {
 }
 
 .congo-black-team, .congo-white-team {
-    overflow: auto;
+    overflow-y: auto;
     max-height: 320px;
+}
+
+.congo-votes-others {
+    overflow-y: auto;
+    max-height: 250px;
 }
 
 .congo-learn-more, .congo-learn-more:visited, .congo-learn-more:focus {

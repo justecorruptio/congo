@@ -26,25 +26,32 @@ class SgfDownloadView(object):
             'CP[2015 Jay Chan]RO[%s]' % (game_id),
         ]
 
-        for seq in range(1, web.ctx.game.current_seq + 1):
+        end_seq = web.ctx.game.current_seq + 1
+
+        for seq in range(1, end_seq):
             vote_counts = Vote.summary(web.ctx.game.id, seq)
+            show_current_move = seq < end_seq - 1 or web.ctx.game.your_turn
+
             if seq > 1:
                 data.append(';%s[%s]' % (
                     (seq - 1) % 2 == 1 and 'B' or 'W',
                     prev_chosen_move,
                 ))
-            data.append('LB')
+
+            if show_current_move:
+                data.append('LB')
             vote_data = []
+
             for i, vote in enumerate(vote_counts):
                 label = chr(i + 65)
                 if i == 0:
                     chosen_move = vote.move
                 if vote.move != 'tt':
-                    data.append('[%s:%s]' % (vote.move, label))
+                    if show_current_move:
+                        data.append('[%s:%s]' % (vote.move, label))
                     vote_data.append('%s: %s votes\n' % (label, vote.cnt))
                 else:
                     vote_data.append('Pass: %s votes\n' % (vote.cnt,))
-
 
             if seq == 1:
                 data.append('C[con-go.net\n\n')
@@ -61,7 +68,8 @@ class SgfDownloadView(object):
                     data.append(notes + '\n\n')
                 data.append('\n')
 
-            data.extend(vote_data)
+            if show_current_move:
+                data.extend(vote_data)
             data.append(']')
             prev_chosen_move = chosen_move
 

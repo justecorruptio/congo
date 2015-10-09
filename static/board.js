@@ -64,6 +64,18 @@ $(function() {
             $sgf_point.addClass('sgf-coord');
         }
 
+        var board_votes = data['comments'];
+        for(var i = 0; i < board_votes.length; i++) {
+            var vote = board_votes[i];
+            var $sgf_cell = $('.sgf-cell-' + vote.pos);
+            var $sgf_point = $sgf_cell.find('.sgf-point')
+            if($sgf_point.hasClass('sgf-coord')) {
+                continue;
+            }
+            $sgf_point.attr('point-label', '\u25B3')
+            $sgf_point.addClass('sgf-coord');
+        }
+
         if (game_info.voted_move) {
             var $sgf_cell = $('.sgf-cell-' + game_info.voted_move);
             var $sgf_point = $sgf_cell.find('.sgf-point')
@@ -184,15 +196,6 @@ $(function() {
             $('.pass-button').addClass('pass-vote');
         }
 
-        var y = pos.charCodeAt(1) - 97;
-
-        if (y < 15) {
-            $('.congo-vote-dialog').addClass('congo-vote-dialog-bottom');
-        }
-        else {
-            $('.congo-vote-dialog').removeClass('congo-vote-dialog-bottom');
-        }
-
         if( game_info.voted_move ) {
             $('.congo-cast-word').text('Update');
         }
@@ -241,6 +244,28 @@ $(function() {
         });
         return false;
     });
+
+    $(".congo-comment-button").click(function(event) {
+        var $notes = $('#congo-vote-form textarea[name="notes"]');
+        var pos = $('#congo-vote-form input[name="pos"]').val();
+        if($notes.val().length < 1) {
+            alert("Comments cannot be empty.");
+            return false;
+        }
+        event.preventDefault();
+        $.post(
+            "/api/comment",
+            $("#congo-vote-form").serialize()
+        ).done(function(data) {
+            var $modal = $('#congo-vote-modal');
+            $modal.modal('hide');
+            sync_game();
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
+        });
+        return false;
+    });
+
 
     function sync_game() {
         $.getJSON('/api/game_state')

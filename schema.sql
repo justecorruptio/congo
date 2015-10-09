@@ -50,6 +50,19 @@ CREATE TABLE Votes (
     UNIQUE INDEX `game_id_seq_user_id_idx` (`game_id`, `seq`, `user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE Comments (
+    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+    `created` timestamp NOT NULL default current_timestamp,
+    `game_id` int(11) unsigned NOT NULL,
+    `user_id` int(11) unsigned NOT NULL,
+    `seq` smallint unsigned NOT NULL,
+    `move` varchar(5) NOT NULL,
+    `notes` varchar(1024) NOT NULL DEFAULT '',
+    `ip_address` varchar(16) NOT NULL DEFAULT '',
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `game_id_seq_user_id_move_idx` (`game_id`, `seq`, `user_id`, `move`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE Game_States (
     `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
     `created` timestamp NOT NULL default current_timestamp,

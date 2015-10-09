@@ -105,9 +105,14 @@ html, body {
 }
 
 @media screen and (max-width: 768px){
-    .congo-vote-dialog-bottom {
-        position: fixed;
-        bottom: 15px;
+    #congo-vote-modal div.modal-content {
+        background-color: rgba(255, 255, 255, 0.7);
+    }
+    #congo-vote-modal div.modal-content textarea {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+    #congo-vote-modal div.modal-content button {
+        opacity: .7;
     }
 }
 

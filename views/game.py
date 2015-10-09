@@ -5,6 +5,7 @@ import web
 import settings
 from forms import VoteForm
 from models import (
+    Comment,
     GameState,
     Pretty,
     Vote,
@@ -31,8 +32,16 @@ class GameStateView(object):
                 }
                 for i, vote in enumerate(vote_counts)
             ]
+            comment_counts = Comment.summary(web.ctx.game.id, web.ctx.game.current_seq)
+            comments = [
+                {
+                    'pos': comment.move,
+                }
+                for i, comment in enumerate(comment_counts)
+            ]
         else:
             top_votes = []
+            comments = []
         turn = web.ctx.game.current_seq % 2 == 1 and "Black" or "White"
         game_state = GameState.get(
             game_id=web.ctx.game.id,
@@ -56,6 +65,7 @@ class GameStateView(object):
                 game_state.white_captures,
             ),
             'votes': top_votes,
+            'comments': comments,
             'time_left': time_left,
             'system_message': system_message,
         })
@@ -80,21 +90,50 @@ class VoteView(object):
         )
 
 
+class CommentView(object):
+    @require_login
+    def POST(self):
+        form = VoteForm()
+        if not form.validates():
+            raise web.notfound(form.note)
+        if not web.ctx.game.your_turn:
+            raise web.notfound("It's not your turn!")
+        Comment.insert_or_update(
+            ('game_id', 'user_id', 'seq', 'move'),
+            game_id=web.ctx.game.id,
+            user_id=web.ctx.user.id,
+            seq=web.ctx.game.current_seq,
+            move=form.d.pos,
+            notes=form.d.notes,
+            ip_address=web.ctx.ip,
+        )
+
 
 class GameVotesView(object):
     @require_login
     def GET(self, pos):
         count = Vote.count(web.ctx.game.id, web.ctx.game.current_seq, pos)
+        comments = Comment.details(web.ctx.game.id, web.ctx.game.current_seq, pos)
         votes = Vote.details(web.ctx.game.id, web.ctx.game.current_seq, pos)
+
+        all_comments = {}
+        for c in list(comments) + list(votes):
+            all_comments[(c.rating, c.name)] = c.notes
+
+        sorted_comments = sorted(
+            all_comments.iteritems(),
+            key=lambda ((rating, name), notes): -rating,
+        )
+
         return json.dumps({
             'display_pos': Pretty.pos(pos),
             'count': count,
             'votes': [
                 {
-                    'name': vote.name,
-                    'rating': Pretty.rating(vote.rating),
-                    'notes': vote.notes,
+                    'name': name,
+                    'rating': Pretty.rating(rating),
+                    'notes': notes,
                 }
-                for vote in votes
+                for (rating, name), notes in sorted_comments
             ],
         })

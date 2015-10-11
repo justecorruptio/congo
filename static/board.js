@@ -162,7 +162,10 @@ $(function() {
         var votes = data['votes'];
         for(var i = 0; i < votes.length; i++) {
             var vote = votes[i];
-            $votes_others.append($('<dt>' + vote.name + ' (' + vote.rating + ')</dt>'));
+            $votes_others.append($(
+                '<dt>' + vote.name + ' (' + vote.rating + ') ' +
+                '<small class="congo-note-type">' + vote.type + '</small>' + '</dt>'
+            ));
             var $dd = $('<dd></dd>');
             $dd.text(vote.notes);
             $votes_others.append($dd);

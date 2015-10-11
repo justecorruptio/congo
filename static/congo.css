@@ -50,6 +50,10 @@ html, body {
     max-height: 250px;
 }
 
+.congo-note-type {
+    color: #bbbbbb;
+}
+
 .congo-learn-more, .congo-learn-more:visited, .congo-learn-more:focus {
     color: #eeeeee;
     outline: none;

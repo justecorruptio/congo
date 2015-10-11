@@ -117,12 +117,15 @@ class GameVotesView(object):
         votes = Vote.details(web.ctx.game.id, web.ctx.game.current_seq, pos)
 
         all_comments = {}
-        for c in list(comments) + list(votes):
-            all_comments[(c.rating, c.name)] = c.notes
+        for c in comments:
+            all_comments[(c.rating, c.name)] = (c.notes, 'comment')
+
+        for v in votes:
+            all_comments[(v.rating, v.name)] = (v.notes, 'vote')
 
         sorted_comments = sorted(
             all_comments.iteritems(),
-            key=lambda ((rating, name), notes): -rating,
+            key=lambda ((rating, name), _): -rating,
         )
 
         return json.dumps({
@@ -133,7 +136,8 @@ class GameVotesView(object):
                     'name': name,
                     'rating': Pretty.rating(rating),
                     'notes': notes,
+                    'type': note_type,
                 }
-                for (rating, name), notes in sorted_comments
+                for (rating, name), (notes, note_type) in sorted_comments
             ],
         })

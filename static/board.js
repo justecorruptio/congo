@@ -46,6 +46,11 @@ $(function() {
             $sgf_board.append($sgf_row);
         }
 
+        var board_last_move = data['last_move'];
+        var $sgf_cell = $('.sgf-cell-' + board_last_move);
+        var $sgf_point = $sgf_cell.find('.sgf-point')
+        $sgf_point.addClass('sgf-lastmove');
+
         var board_illegals = data['illegal'];
         for(var i = 0; i < board_illegals.length; i++) {
             var $sgf_cell = $('.sgf-cell-' + board_illegals[i]);

@@ -57,6 +57,7 @@ class GameStateView(object):
             'current_seq': web.ctx.game.current_seq,
             'board_size': 19,
             'board': json.loads(game_state.board),
+            'last_move': game_state.move,
             'illegal': json.loads(game_state.illegal),
             'info': "<b>%d:</b> %s's turn. Captures: Black %s, White %s" % (
                 web.ctx.game.current_seq,

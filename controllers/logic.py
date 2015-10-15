@@ -114,6 +114,7 @@ def next_move():
     GameState.insert(
         game_id=game.id,
         seq=game.current_seq,
+        move=top_move,
         **next_state
     )
 

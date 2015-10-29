@@ -81,15 +81,17 @@ $(function() {
             $sgf_point.addClass('sgf-coord');
         }
 
-        if (game_info.voted_move) {
+        if (game_info.voted_move && !is_reviewing()) {
             var $sgf_cell = $('.sgf-cell-' + game_info.voted_move);
             var $sgf_point = $sgf_cell.find('.sgf-point')
             $sgf_point.removeClass('sgf-empty');
             $sgf_point.addClass('sgf-voted');
         }
 
-        var $board_info = $('.congo-board-info');
-        $board_info.html(data['info']);
+        $('.congo-info-seq').text(data['seq']);
+        $('.congo-info-turn').text(data['turn']);
+        $('.congo-info-black-captures').text(data['black_captures']);
+        $('.congo-info-white-captures').text(data['white_captures']);
     }
 
     function redraw_data_pane(data) {
@@ -126,7 +128,7 @@ $(function() {
             $('.congo-top-votes-panel').hide();
         }
 
-        if(!game_info.your_turn) {
+        if(!game_info.your_turn && !is_reviewing()) {
             return;
         }
 
@@ -142,6 +144,7 @@ $(function() {
             '</tr>');
             $votes_table.append($tr);
 
+            $('.data-pane-label').unbind("click");
             $('.data-pane-label').click(function(event) {
                 event.preventDefault();
                 start_vote($(this).data('pos'));
@@ -179,7 +182,7 @@ $(function() {
     }
 
     function start_vote(pos) {
-        if(! game_info.your_turn) {
+        if(!game_info.your_turn && !is_reviewing()) {
             return false;
         }
         if(pos != 'tt') {
@@ -204,17 +207,23 @@ $(function() {
             $('.pass-button').addClass('pass-vote');
         }
 
-        if( game_info.voted_move ) {
-            $('.congo-cast-word').text('Update');
+        if(!is_reviewing()) {
+            if( game_info.voted_move ) {
+                $('.congo-vote-title').text('Update Vote');
+            }
+            else {
+                $('.congo-vote-title').text('Cast Vote');
+            }
         }
         else {
-            $('.congo-cast-word').text('Cast');
+            $('.congo-vote-title').text('Reviewing Vote');
         }
+
         $('#congo-vote-form input[name="pos"]').val(pos);
 
         var $modal = $('#congo-vote-modal');
 
-        $.getJSON('/api/game_votes/' + pos).done(function(data) {
+        $.getJSON('/api/game_votes/' + game_info.view_seq + '/' + pos).done(function(data) {
             redraw_votes_others(data);
             stop_sync();
             $modal.modal('show');
@@ -228,7 +237,9 @@ $(function() {
                 }
                 $('#congo-vote-form input[name="pos"]').val('');
                 $('#congo-vote-form textarea[name="notes"]').val('');
-                start_sync();
+                if(!is_reviewing()) {
+                    start_sync();
+                }
             });
         }).error(function() {
             alert('Error.'); //TODO: make better;
@@ -274,9 +285,44 @@ $(function() {
         return false;
     });
 
+    $(".review-backward-button").click(function(event) {
+        event.preventDefault();
+        if(game_info.view_seq == 1) {
+            this.blur();
+            return false;
+        }
+        game_info.view_seq -= 1;
+        $(".review-forward-button").removeClass("text-muted");
+        if(game_info.view_seq == 1) {
+            $(".review-backward-button").addClass("text-muted");
+        }
+        $('.congo-vote-form-pane').hide();
+        stop_sync();
+        sync_game();
+        this.blur();
+        return false;
+    });
+
+    $(".review-forward-button").click(function(event) {
+        event.preventDefault();
+        if(game_info.view_seq == game_info.current_seq) {
+            this.blur();
+            return false;
+        }
+        game_info.view_seq += 1;
+        $(".review-backward-button").removeClass("text-muted");
+        if(!is_reviewing()) {
+            $(".review-forward-button").addClass("text-muted");
+            $('.congo-vote-form-pane').show();
+            start_sync();
+        }
+        sync_game();
+        this.blur();
+        return false;
+    });
 
     function sync_game() {
-        $.getJSON('/api/game_state')
+        $.getJSON('/api/game_state/' + game_info.view_seq)
         .done(function(data) {
             redraw_data_pane(data);
             redraw_board(data);
@@ -297,6 +343,10 @@ $(function() {
         }
         clearInterval(sync_game_interval);
         sync_game_interval = 'stopped';
+    }
+
+    function is_reviewing() {
+        return game_info.view_seq != game_info.current_seq;
     }
 
     sync_game_interval = 'stopped';

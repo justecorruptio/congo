@@ -124,7 +124,12 @@ html, body {
     width: 100%;
 }
 
+
 /* bootstrap overrides */
+
+a, a:visited, a:-webkit-any-link {
+    text-decoration: none !important;
+}
 
 textarea {
     resize: none;
@@ -149,4 +154,8 @@ dd {
 
 .table>tbody>tr>td {
     padding-left: 15px;
+}
+
+.text-muted {
+    cursor: not-allowed !important;
 }

@@ -4,6 +4,7 @@ $var deferjs:
     <script>
         var game_info = {
             player_color: $:{ web.ctx.game.player_color },
+            view_seq: $:{ web.ctx.game.current_seq },
             current_seq: $:{ web.ctx.game.current_seq },
             voted_move: '$:{ web.ctx.game.voted_move }',
             your_turn: $:{ web.ctx.game.your_turn }
@@ -31,7 +32,27 @@ $:render.header()
 <div class="row v-pad-1 ff-board-info-fix"><div class="col-xs-12">
     <div class="panel panel-default">
         <div class="panel-body">
-            <div class="congo-board-info pull-left"></div>
+            <div class="pull-left">
+                <a class="review-backward-button" href="">
+                    <span class="glyphicon glyphicon-step-backward"></span>
+                </a>
+                <b><span class="congo-info-seq"></span></b>
+                <a class="review-forward-button text-muted" href="">
+                    <span class="glyphicon glyphicon-step-forward"></span>
+                </a>
+                <span class="visible-xs-inline">
+                    <span class="congo-info-turn"></span>
+                    Cap:
+                    B <span class="congo-info-black-captures"></span>,
+                    W <span class="congo-info-white-captures"></span>
+                </span>
+                <span class="hidden-xs">
+                    <span class="congo-info-turn"></span>
+                    Captures:
+                    Black <span class="congo-info-black-captures"></span>,
+                    White <span class="congo-info-white-captures"></span>
+                </span>
+            </div>
             <div class="pull-right">
                 <a class="data-pane-label pass-button" data-pos="tt" href="">Pass</a>
             </div>
@@ -83,9 +104,9 @@ $:render.header()
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title"><span class="congo-cast-word"></span> Vote</h4>
+                <h4 class="modal-title"><span class="congo-vote-title"></span></h4>
             </div>
-            <div class="modal-body">
+            <div class="congo-vote-form-pane modal-body">
                 $:render.vote()
             </div>
             <div class="modal-body">

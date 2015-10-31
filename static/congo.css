@@ -124,6 +124,33 @@ html, body {
     width: 100%;
 }
 
+.chat-body {
+    overflow-y: auto;
+}
+
+@media screen and (min-width: 768px){
+    .chat-body {
+        max-height: 188px;
+    }
+}
+
+@media screen and (min-width: 992px){
+    .chat-body {
+        max-height: 236px;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    .chat-body {
+        max-height: 255px;
+    }
+}
+
+.chat-line {
+    padding-left: .5em;
+    text-indent: -.5em;
+}
+
 
 /* bootstrap overrides */
 

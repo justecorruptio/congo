@@ -15,7 +15,11 @@ COOKIE_KEY_USER_ID = 'uid'
 COOKIE_KEY_NONCE = 'nonce'
 COOKIE_DOMAIN = '***REMOVED***'
 
+ADMINS = []
+
 try:
     from settings_prod import *
 except:
     pass
+
+ADMINS = [x.lower() for x in ADMINS]

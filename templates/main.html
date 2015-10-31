@@ -11,6 +11,7 @@ $var deferjs:
         };
     </script>
     <script src="/static/board.js"></script>
+    <script src="/static/chat.js"></script>
 
 $:render.header()
 
@@ -72,7 +73,7 @@ $:render.header()
     </div>
 
     <div class="panel panel-default hidden-xs congo-top-votes-panel" style="display:none;">
-        <div class="panel-heading">
+        <div class="panel-heading hidden-sm">
             <h3 class="panel-title">Top Votes</h3>
         </div>
         <table class="table">
@@ -80,10 +81,20 @@ $:render.header()
         </table>
     </div>
 
+    <div class="panel panel-default hidden-xs">
+        <div class="panel-body congo-chat-panel">
+            $:render.chat()
+        </div>
+    </div>
+
     <div class="panel panel-default congo-system-message-panel hidden-xs" style="display:none;">
         <div class="panel-body congo-system-message">
         </div>
     </div>
+
+    <a class="btn btn-info btn-sm visible-xs" href="" role="button" data-toggle="modal" data-target="#congo-chat-modal">
+        Open Chat
+    </a>
 
 </div>
 
@@ -112,6 +123,31 @@ $:render.header()
             <div class="modal-body">
                 <h4>Comments (<span class="congo-vote-count"></span> votes)</h4>
                 <dl class="congo-votes-others"></dl>
+            </div>
+        </div>
+
+</div>
+</div>
+</div>
+
+    </div>
+</div>
+
+<div id="congo-chat-modal" class="modal" role="dialog">
+    <div class="congo-chat-dialog modal-sm" role="document">
+
+<div class="container v-pad-1">
+<div class="row">
+<div class="col-xs-12">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <a type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+                <h4 class="modal-title">Chat</h4>
+            </div>
+            <div class="congo-chat-modal-body modal-body">
             </div>
         </div>
 

@@ -83,3 +83,14 @@ CREATE TABLE System_Message (
     `message` text,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE Chat_Messages (
+    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+    `created` timestamp NOT NULL default current_timestamp,
+    `room_id` int(11) unsigned NOT NULL,
+    `user_id` int(11) unsigned NOT NULL,
+    `message` varchar(1024) NOT NULL DEFAULT '',
+    `deleted` tinyint(1) NOT NULL default 0,
+    PRIMARY KEY (`id`),
+    INDEX `room_id_id` (`room_id`, `id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

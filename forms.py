@@ -52,3 +52,13 @@ VoteForm = form.Form(
         ),
     ],
 )
+
+ChatForm = form.Form(
+    form.Textbox('message'),
+    validators=[
+        form.Validator(
+            'Message cannot exceed 300 characters.',
+            lambda i: len(i.message) < 300,
+        ),
+    ],
+)

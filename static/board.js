@@ -98,6 +98,7 @@ $(function() {
 
         if(game_info.current_seq != data.current_seq) {
             game_info.current_seq = data.current_seq;
+            game_info.view_seq = data.current_seq;
             game_info.voted_move = null;
             game_info.your_turn = game_info.player_color % 2 == game_info.current_seq %2;
         }
@@ -305,7 +306,7 @@ $(function() {
 
     $(".review-forward-button").click(function(event) {
         event.preventDefault();
-        if(game_info.view_seq == game_info.current_seq) {
+        if(!is_reviewing()) {
             this.blur();
             return false;
         }

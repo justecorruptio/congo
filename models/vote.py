@@ -55,7 +55,7 @@ class Vote(Model):
             AND v.seq = $seq
             GROUP BY v.move
             ORDER BY cnt DESC, SUM(u.rating) DESC
-            LIMIT 7
+            LIMIT 10
         """, vars={
             'game_id': game_id,
             'seq': seq,

@@ -136,7 +136,7 @@ $(function() {
         var $votes_table = $('.congo-votes-table');
         $votes_table.empty()
 
-        for(var i = 0; i < board_votes.length && i < 3; i++) {
+        for(var i = 0; i < board_votes.length && i < 7; i++) {
             var vote = board_votes[i];
             var $tr = $('<tr>' +
                 '<td><a href="" data-pos="' + vote.pos + '"' +

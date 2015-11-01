@@ -58,7 +58,7 @@ $(function() {
             }
 
             $('.chat-delete').unbind("click");
-            $('.chat-delete').click(function() {
+            $('.chat-delete').click(function(event) {
                 event.preventDefault();
                 $.ajax({
                     url: '/chat?id=' + $(this).data('chat_id'),

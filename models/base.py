@@ -47,7 +47,7 @@ class Model(object):
         )
 
     @classmethod
-    def insert_or_update(cls, keys, **kwargs):
+    def update(cls, keys, **kwargs):
         not_keys = list(set(kwargs.keys()) - set(keys))
 
         criteria = dict((k, kwargs[k]) for k in keys)
@@ -67,7 +67,14 @@ class Model(object):
                 **to_change
             )
             return True
-        else:
-            cls.insert(**kwargs)
-            return False
+        return False
+
+
+    @classmethod
+    def insert_or_update(cls, keys, **kwargs):
+        if cls.update(keys, **kwargs):
+            return True
+
+        cls.insert(**kwargs)
+        return False
 

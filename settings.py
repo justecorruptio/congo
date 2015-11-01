@@ -15,7 +15,7 @@ COOKIE_KEY_USER_ID = 'uid'
 COOKIE_KEY_NONCE = 'nonce'
 COOKIE_DOMAIN = '***REMOVED***'
 
-ADMINS = []
+ADMINS = ['bee', 'matt']
 
 try:
     from settings_prod import *

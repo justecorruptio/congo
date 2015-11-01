@@ -1,4 +1,5 @@
 import json
+import random
 import redis
 import time
 import web
@@ -50,6 +51,8 @@ class ChatView(object):
             messages = ChatMessage.load(room_id, last_id)
         else:
             action, kwargs = wait_for_message(room_id)
+            #sleep up to 300 ms to prevent the thundering herd
+            time.sleep(random.random() * .3)
             if action == 'send':
                 messages = ChatMessage.load(room_id, last_id)
             elif action == 'delete':
@@ -94,7 +97,11 @@ class ChatView(object):
         chat_id = int(get_data.id)
 
         msg = ChatMessage.get(id=chat_id)
-        ChatMessage.delete(id=chat_id)
+        ChatMessage.update(
+            ('id',),
+            id=chat_id,
+            deleted=1,
+        )
         signal_message(msg.room_id, 'delete', id=chat_id)
 
         return "OK"

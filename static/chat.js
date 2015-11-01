@@ -7,6 +7,8 @@ $(function() {
     $('#congo-chat-modal').on('shown.bs.modal', function () {
         var $chat_container = $('#congo-chat-container');
         $(".congo-chat-modal-body").append($chat_container);
+        var $chat_body = $('.chat-body');
+        $chat_body.scrollTop($chat_body.prop('scrollHeight'));
     });
 
     $('#congo-chat-modal').on('hidden.bs.modal', function () {
@@ -45,7 +47,7 @@ $(function() {
                     $chat_body.append($line_span);
                     chat_last_id = msg.id;
                 }
-                while ($chat_body.find('.chat-line').length > 20) {
+                while ($chat_body.find('.chat-line').length > 40) {
                     $chat_body.find('.chat-line:first').remove();
                 }
                 $chat_body.scrollTop($chat_body.prop('scrollHeight'));
@@ -91,15 +93,20 @@ $(function() {
 
     $("#congo-chat-form").submit(function(event) {
         event.preventDefault();
+        var $chat_input = $('#congo-chat-form input[name="message"]');
         if(time() - last_chat_ts < 1) {
             alert("Please slow down.");
+            return false;
+        }
+        if($chat_input.val().length < 1) {
+            alert("Please enter a message.");
             return false;
         }
         $.post(
             "/chat",
             $(this).serialize()
         ).done(function(data) {
-            $('#congo-chat-form input[name="message"]').val('');
+            $chat_input.val('');
             last_chat_ts = time();
         }).fail(function(jqXHR, textStatus, errorThrown) {
             alert(jqXHR.responseText);

@@ -128,6 +128,12 @@ html, body {
     overflow-y: auto;
 }
 
+@media screen and (max-width: 768px){
+    .chat-body {
+        max-height: 420px;
+    }
+}
+
 @media screen and (min-width: 768px){
     .chat-body {
         max-height: 188px;
@@ -149,6 +155,7 @@ html, body {
 .chat-line {
     padding-left: .5em;
     text-indent: -.5em;
+    word-wrap: break-word;
 }
 
 

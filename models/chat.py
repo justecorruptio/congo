@@ -19,7 +19,7 @@ class ChatMessage(Model):
             AND c.id > $last_id
             AND deleted = 0
             ORDER BY id DESC
-            LIMIT 20
+            LIMIT 40
         """, vars={
             'room_id': room_id,
             'last_id': last_id,

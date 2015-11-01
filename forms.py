@@ -60,5 +60,9 @@ ChatForm = form.Form(
             'Message cannot exceed 300 characters.',
             lambda i: len(i.message) < 300,
         ),
+        form.Validator(
+            'Message cannot be empty.',
+            lambda i: len(i.message) > 0,
+        ),
     ],
 )

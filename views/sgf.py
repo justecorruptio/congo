@@ -43,7 +43,7 @@ class SgfDownloadView(object):
                 data.append('LB')
             vote_data = []
 
-            for i, vote in enumerate(list(vote_counts)[:4]):
+            for i, vote in enumerate(list(vote_counts)[:7]):
                 label = chr(i + 65)
                 if i == 0:
                     chosen_move = vote.move
@@ -59,7 +59,7 @@ class SgfDownloadView(object):
             else:
                 data.append('C[')
                 votes = Vote.details(game.id, seq - 1, prev_chosen_move)
-                for vote in votes:
+                for vote in list(votes)[:5]:
                     data.append('%s (%s)\\: ' % (vote.name, Pretty.rating(vote.rating)))
                     notes = re.sub('\n', ' ', vote.notes)
                     notes = re.sub('\[', '(', notes)

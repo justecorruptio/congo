@@ -43,7 +43,7 @@ class SgfDownloadView(object):
                 data.append('LB')
             vote_data = []
 
-            for i, vote in enumerate(vote_counts):
+            for i, vote in enumerate(list(vote_counts)[:4]):
                 label = chr(i + 65)
                 if i == 0:
                     chosen_move = vote.move

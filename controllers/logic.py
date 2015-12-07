@@ -4,11 +4,13 @@ import re
 import tempfile
 
 from models import (
+    ChatMessage,
     Game,
     GameState,
     Pretty,
     Vote,
 )
+from views.chat import signal_message
 
 GNUGO_PATH = '/usr/games/gnugo'
 DEFAULT_SGF = '(;GM[1]FF[4]SZ[19]KM[6.5]HA[0]RU[Japanese]PL[B])'
@@ -123,3 +125,16 @@ def next_move():
         id=game.id,
         current_seq=game.current_seq + 1,
     )
+
+    message = 'Move %d, %s plays %s.' % (
+        game.current_seq,
+        game.current_seq % 2 and "Black" or "White",
+        Pretty.pos(top_move),
+    )
+    for room_id in (1, 2):
+        ChatMessage.insert(
+            room_id=room_id,
+            user_id=0,
+            message=message,
+        )
+        signal_message(room_id, 'send')

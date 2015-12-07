@@ -14,7 +14,7 @@ class ChatMessage(Model):
                 u.rating as rating,
                 c.message as message
             FROM Chat_Messages c
-            JOIN Users u ON u.id = c.user_id
+            LEFT JOIN Users u ON u.id = c.user_id
             WHERE c.room_id = $room_id
             AND c.id > $last_id
             AND deleted = 0

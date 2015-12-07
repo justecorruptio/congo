@@ -12,6 +12,8 @@ class Pretty(object):
 
     @staticmethod
     def rating(rating):
+        if rating is None:
+            return "?"
         if rating < 0:
             return "%dk" % (-rating,)
         else:

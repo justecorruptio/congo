@@ -41,7 +41,13 @@ $(function() {
                             '<span class="chat-message"></span>' +
                         '</div>'
                     );
-                    $line_span.find('.chat-name').text(msg.name + ' (' + msg.rating + ')');
+                    if(msg.name) {
+                        $line_span.find('.chat-name').text(msg.name + ' (' + msg.rating + ')');
+                    }
+                    else {
+                        $line_span.find('.chat-name').text('ConGo Bot');
+                        $line_span.find('.chat-message').css('font-weight', 'bold');
+                    }
                     $line_span.find('.chat-message').text(msg.message);
 
                     $chat_body.append($line_span);

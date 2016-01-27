@@ -113,6 +113,9 @@ def next_move():
 
     next_state = parse_gnugo(result)
 
+    next_state['black_captures'] += last_state['black_captures']
+    next_state['white_captures'] += last_state['white_captures']
+
     GameState.insert(
         game_id=game.id,
         seq=game.current_seq,

@@ -68,7 +68,8 @@ $:render.header()
 <div class="col-xs-12 col-sm-4 col-md-5 col-lg-4">
     <div class="panel panel-default">
         <div class="panel-body">
-            <div class="turn-info"></div>
+            <!-- XXX <div class="turn-info"></div> -->
+            <b>Game Over: <a class="congo-info" href="#" role="button" data-toggle="modal" data-target="#congo-postgame-modal">White wins by resignation.</a></b>
         </div>
     </div>
 
@@ -117,9 +118,11 @@ $:render.header()
                 </button>
                 <h4 class="modal-title"><span class="congo-vote-title"></span></h4>
             </div>
+            <!-- XXX
             <div class="congo-vote-form-pane modal-body">
                 $:render.vote()
             </div>
+            -->
             <div class="modal-body">
                 <h4>Comments (<span class="congo-vote-count"></span> votes)</h4>
                 <dl class="congo-votes-others"></dl>

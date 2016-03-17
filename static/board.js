@@ -445,7 +445,8 @@ $(function() {
     }
 
     function is_reviewing() {
-        return game_info.view_seq != game_info.current_seq;
+        return true;
+        //XXX return game_info.view_seq != game_info.current_seq;
     }
 
     sync_game_interval = 'stopped';

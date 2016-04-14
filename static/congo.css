@@ -87,6 +87,12 @@ html, body {
     }
 }
 
+@media screen and (min-width: 1200px){
+    .ff-board-info-fix {
+        margin-top: 20px !important;
+    }
+}
+
 .header-offset {
     height: 65px;
 }
@@ -148,7 +154,13 @@ html, body {
 
 @media screen and (min-width: 1200px){
     .chat-body {
-        max-height: 255px;
+        max-height: 300px;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    .chat-body {
+        max-height: 500px;
     }
 }
 
@@ -158,6 +170,19 @@ html, body {
     word-wrap: break-word;
 }
 
+/* sgf-overrides */
+
+@media screen and (min-width: 1200px){
+    .sgf-num-right {
+        left: 7px;
+    }
+}
+
+@media screen and (min-width: 1400px){
+    .sgf-num-right {
+        left: 12px;
+    }
+}
 
 /* bootstrap overrides */
 
@@ -192,4 +217,10 @@ dd {
 
 .text-muted {
     cursor: not-allowed !important;
+}
+
+@media screen and (min-width: 1400px) {
+    .container {
+        width: 1370px;
+    }
 }

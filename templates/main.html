@@ -19,7 +19,8 @@ $:render.header()
 <div class="row">
 
 <!--BOARD-->
-<div class="col-xs-12 col-sm-8 col-md-7 col-lg-6 col-lg-offset-1">
+<!--<div class="col-xs-12 col-sm-8 col-md-7 col-lg-6 col-lg-offset-1">-->
+<div class="col-xs-12 col-sm-8 col-md-7 col-lg-7">
 
 <div class="row"><div class="col-xs-12">
     <div class="sgf-container">
@@ -65,11 +66,10 @@ $:render.header()
 
 
 <!-- RIGHT COLUMN -->
-<div class="col-xs-12 col-sm-4 col-md-5 col-lg-4">
+<div class="col-xs-12 col-sm-4 col-md-5 col-lg-5">
     <div class="panel panel-default">
         <div class="panel-body">
-            <!-- XXX <div class="turn-info"></div> -->
-            <b>Game Over: <a href="#" role="button" data-toggle="modal" data-target="#congo-postgame-modal">White wins by resignation.</a></b>
+            <div class="turn-info"></div>
         </div>
     </div>
 
@@ -109,7 +109,7 @@ $:render.header()
 
 <div class="container">
 <div class="row">
-<div class="col-xs-12 col-sm-4 col-sm-offset-8 col-md-5 col-md-offset-7 col-lg-4">
+<div class="col-xs-12 col-sm-4 col-sm-offset-8 col-md-5 col-md-offset-7 col-lg-5">
 
         <div class="modal-content">
             <div class="modal-header">
@@ -118,11 +118,9 @@ $:render.header()
                 </button>
                 <h4 class="modal-title"><span class="congo-vote-title"></span></h4>
             </div>
-            <!-- XXX
             <div class="congo-vote-form-pane modal-body">
                 $:render.vote()
             </div>
-            -->
             <div class="modal-body">
                 <h4>Comments (<span class="congo-vote-count"></span> votes)</h4>
                 <dl class="congo-votes-others"></dl>

@@ -60,6 +60,16 @@ $(function() {
             $sgf_point.addClass('sgf-coord');
         }
 
+        $('.congo-info-seq').text(data['seq']);
+        $('.congo-info-turn').text(data['turn']);
+        $('.congo-info-black-captures').text(data['black_captures']);
+        $('.congo-info-white-captures').text(data['white_captures']);
+
+        if (!game_info.voted_move && !is_reviewing()) {
+            // If you haven't voted, don't render votes.
+            return;
+        }
+
         var board_votes = data['votes'];
         for(var i = 0; i < board_votes.length; i++) {
             var vote = board_votes[i];
@@ -88,10 +98,6 @@ $(function() {
             $sgf_point.addClass('sgf-voted');
         }
 
-        $('.congo-info-seq').text(data['seq']);
-        $('.congo-info-turn').text(data['turn']);
-        $('.congo-info-black-captures').text(data['black_captures']);
-        $('.congo-info-white-captures').text(data['white_captures']);
     }
 
     function redraw_data_pane(data) {
@@ -100,7 +106,7 @@ $(function() {
             game_info.current_seq = data.current_seq;
             game_info.view_seq = data.current_seq;
             game_info.voted_move = null;
-            game_info.your_turn = game_info.player_color % 2 == game_info.current_seq %2;
+            game_info.your_turn = game_info.player_color % 2 == game_info.current_seq % 2;
         }
 
         var $turn_info = $('.turn-info');
@@ -130,6 +136,14 @@ $(function() {
         }
 
         if(!game_info.your_turn && !is_reviewing()) {
+            return;
+        }
+
+        if(!game_info.voted_move && !is_reviewing()) {
+            // If you haven't voted, don't render votes.
+            $('.congo-votes-table').html(
+                '<tr><td>Votes are hidden until you vote.</td></tr>'
+            );
             return;
         }
 
@@ -186,6 +200,14 @@ $(function() {
         if(!game_info.your_turn && !is_reviewing()) {
             return false;
         }
+
+        if(game_info.voted_move) {
+            $('.congo-comment-button').show();
+        }
+        else {
+            $('.congo-comment-button').hide();
+        }
+
         if(pos != 'tt') {
             var $sgf_cell = $('.sgf-cell-' + pos);
 
@@ -347,8 +369,7 @@ $(function() {
     }
 
     function is_reviewing() {
-        return true;
-        //XXX return game_info.view_seq != game_info.current_seq;
+        return game_info.view_seq != game_info.current_seq;
     }
 
     sync_game_interval = 'stopped';

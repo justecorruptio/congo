@@ -79,8 +79,6 @@ class GameStateView(object):
 class VoteView(object):
     @require_login
     def POST(self):
-        #XXX
-        raise web.notfound("The game has ended. Please refresh your browser.")
         form = VoteForm()
         if not form.validates():
             raise web.notfound(form.note)
@@ -100,8 +98,6 @@ class VoteView(object):
 class CommentView(object):
     @require_login
     def POST(self):
-        #XXX
-        raise web.notfound("The game has ended. Please refresh your browser.")
         form = VoteForm()
         if not form.validates():
             raise web.notfound(form.note)

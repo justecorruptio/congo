@@ -158,7 +158,7 @@ html, body {
     }
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1400px){
     .chat-body {
         max-height: 500px;
     }

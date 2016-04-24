@@ -8,9 +8,12 @@ from views import (
 )
 
 web.config.debug = settings.DEBUG
-web.config.version = Version.version
-
 app = web.application(urls, views)
+
+def set_version():
+    web.ctx.version = Version.version
+app.add_processor(web.loadhook(set_version))
+
 application = app.wsgifunc()
 
 if __name__ == "__main__":

@@ -10,9 +10,9 @@ $var deferjs:
             your_turn: $:{ web.ctx.game.your_turn }
         };
     </script>
-    <script src="/static/board.js?v=$:{web.config.version}"></script>
-    <script src="/static/sgf.js?v=$:{web.config.version}"></script>
-    <script src="/static/chat.js?v=$:{web.config.version}"></script>
+    <script src="/static/board.js?v=$:{web.ctx.version}"></script>
+    <script src="/static/sgf.js?v=$:{web.ctx.version}"></script>
+    <script src="/static/chat.js?v=$:{web.ctx.version}"></script>
 
 $:render.header()
 

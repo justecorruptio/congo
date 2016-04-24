@@ -1,4 +1,8 @@
+import os
 import random
+
+import settings
+
 
 class Pretty(object):
     @staticmethod
@@ -23,4 +27,10 @@ class Pretty(object):
 
 
 class Version(object):
-    version = str(random.randint(100000, 999999))
+    try:
+        version = open(os.path.join(
+            settings.BASE_DIR,
+            '.git/refs/heads/master',
+        ), 'r').read()[:6]
+    except:
+        version = str(random.randint(100000, 999999))

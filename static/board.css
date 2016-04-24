@@ -136,6 +136,23 @@
     display: block;
 }
 
+.sgf-num-left {
+    position: relative;
+}
+
+.sgf-num-left:after {
+    content: attr(num) !important;
+    position: absolute;
+    left: -22px;
+    top: -18px;
+    color: #dddddd;
+    font-size: 12px;
+    width: 15px;
+    text-align: center;
+    pointer-events: none;
+    cursor: default;
+}
+
 .sgf-num-right {
     position: relative;
 }
@@ -154,6 +171,11 @@
 }
 
 @media screen and (max-width: 515px){
+    .sgf-num-left:after {
+        left: -20px!important;
+        top: -17px!important;
+        font-size: 10px!important;
+    }
     .sgf-num-right:after {
         left: 27px!important;
         top: -17px!important;
@@ -162,9 +184,74 @@
 }
 
 @media screen and (max-width: 440px){
+    .sgf-num-left:after {
+        left: -18px!important;
+        top: -17px!important;
+        font-size: 10px!important;
+    }
     .sgf-num-right:after {
         left: 21px!important;
         top: -15px!important;
+        font-size: 10px!important;
+    }
+}
+
+.sgf-num-top {
+    position: relative;
+}
+
+.sgf-num-top:after {
+    content: attr(num) !important;
+    position: absolute;
+    left: 6px;
+    top: -50px;
+    color: #dddddd;
+    font-size: 12px;
+    width: 15px;
+    text-align: center;
+    pointer-events: none;
+    cursor: default;
+}
+
+@media screen and (min-width: 320px){
+    .sgf-num-top:after {
+        top: -33px!important;
+    }
+}
+
+@media screen and (max-width: 515px){
+    .sgf-num-top:after {
+        font-size: 10px!important;
+    }
+}
+
+@media screen and (min-width: 450px){
+    .sgf-num-top:after {
+        top: -38px!important;
+    }
+}
+
+@media screen and (min-width: 768px){
+    .sgf-num-top:after {
+        top: -40px!important;
+    }
+}
+
+@media screen and (min-width: 992px){
+    .sgf-num-top:after {
+        top: -42px!important;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    .sgf-num-top:after {
+        top: -50px!important;
+    }
+}
+
+@media screen and (min-width: 1400px){
+    .sgf-num-top:after {
+        top: -55px!important;
     }
 }
 

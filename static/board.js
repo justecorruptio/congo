@@ -60,8 +60,16 @@ $(function() {
                     $sgf_cell.append($('<div class=sgf-num-right num="' +
                         (board_size - i) + '"></div>'));
                 }
+                if(j == 0) {
+                    $sgf_cell.append($('<div class=sgf-num-left num="' +
+                        (board_size - i) + '"></div>'));
+                }
                 if(i == board_size - 1) {
                     $sgf_cell.append($('<div class=sgf-num-bottom num="' +
+                        ("ABCDEFGHJKLMNOPQRST"[j]) + '"></div>'));
+                }
+                if(i == 0) {
+                    $sgf_cell.append($('<div class=sgf-num-top num="' +
                         ("ABCDEFGHJKLMNOPQRST"[j]) + '"></div>'));
                 }
                 $sgf_row.append($sgf_cell);

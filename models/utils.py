@@ -1,4 +1,3 @@
-import os
 import random
 
 class Pretty(object):
@@ -24,7 +23,4 @@ class Pretty(object):
 
 
 class Version(object):
-    try:
-        version = os.popen("git rev-parse HEAD").read()[:6]
-    except Exception:
-        version = str(random.randint(100000, 999999))
+    version = str(random.randint(100000, 999999))

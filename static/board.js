@@ -1,9 +1,24 @@
+var congo_bind_trial;
+
+function insert_trial_tags($elem) {
+    var html = $elem.html();
+    var new_html = html.replace(
+        /([A-Z]\d+( +[A-Z]\d+){2,30})/g,
+        '<span class="congo-trial-span">$1</span>'
+    );
+    if (new_html != html) {
+        $elem.html(new_html);
+        congo_bind_trial($elem);
+    }
+}
+
 $(function() {
 
-    function redraw_board(data) {
+    function redraw_board(data, skip_votes) {
         var $sgf_board = $('.sgf-board');
         var board_size = data['board_size'];
         var board_data = data['board'];
+
         $sgf_board.empty();
         for(var i = 0; i < board_size; i++) {
             var $sgf_row = $('<div class="sgf-row"></div>');
@@ -27,10 +42,18 @@ $(function() {
                 }[color]);
                 var $sgf_cell = $('<div class="sgf-cell"></div>');
                 $sgf_cell.data('pos', pos);
+                $sgf_cell.data('coord-i', i);
+                $sgf_cell.data('coord-j', j);
                 $sgf_cell.addClass('sgf-cell-' + pos);
                 $sgf_cell.append($sgf_point);
-                $sgf_cell.click(function() {
-                    var pos = $(this).data('pos');
+                $sgf_cell.click(function(e) {
+                    var pos = $(this).data('pos'),
+                        i = $(this).data('coord-i'),
+                        j = $(this).data('coord-j');
+                    if (e.shiftKey) {
+                        start_shift_click(board_size, i, j);
+                        return false;
+                    }
                     start_vote(pos);
                 });
                 if(j == board_size - 1) {
@@ -65,7 +88,7 @@ $(function() {
         $('.congo-info-black-captures').text(data['black_captures']);
         $('.congo-info-white-captures').text(data['white_captures']);
 
-        if (!game_info.voted_move && !is_reviewing()) {
+        if (!game_info.voted_move && !is_reviewing() || skip_votes) {
             // If you haven't voted, don't render votes.
             return;
         }
@@ -107,6 +130,7 @@ $(function() {
             game_info.view_seq = data.current_seq;
             game_info.voted_move = null;
             game_info.your_turn = game_info.player_color % 2 == game_info.current_seq % 2;
+
         }
 
         var $turn_info = $('.turn-info');
@@ -191,6 +215,7 @@ $(function() {
             ));
             var $dd = $('<dd></dd>');
             $dd.text(vote.notes);
+            insert_trial_tags($dd);
             $votes_others.append($dd);
         }
         $('.congo-vote-count').text(data.count);
@@ -269,6 +294,37 @@ $(function() {
         });
     }
 
+    var trial_data = 0;
+    function start_shift_click(board_size, i, j) {
+        var pretty_pos = "ABCDEFGHJKLMNOPQRST"[j] + (board_size - i);
+        var $chat_input = $('#congo-chat-input');
+        var chat_val = $chat_input.val();
+
+        if (!trial_data) {
+            trial_data = $.parseJSON(last_synced_data);
+            chat_val = chat_val.replace(/( *[A-Z]\d+)*/g,'');
+        }
+
+        var valid_move = play_move(
+            trial_data['board'],
+            2 - trial_data['seq'] % 2,
+            [i, j]
+        );
+
+        if (valid_move) {
+            trial_data['seq'] += 1;
+            redraw_board(trial_data, true);
+            $chat_input.val(chat_val + ' ' + pretty_pos);
+        }
+
+        $(document).unbind("keyup");
+        $(document).keyup(function(e) {
+            redraw_board($.parseJSON(last_synced_data));
+            trial_data = 0;
+            $(this).unbind(e);
+        });
+    }
+
     $("#congo-vote-form").submit(function(event) {
         var $notes = $('#congo-vote-form textarea[name="notes"]');
         var pos = $('#congo-vote-form input[name="pos"]').val();
@@ -344,9 +400,12 @@ $(function() {
         return false;
     });
 
+    var last_synced_data;
     function sync_game() {
         $.getJSON('/api/game_state/' + game_info.view_seq)
         .done(function(data) {
+            last_synced_data = JSON.stringify(data);
+
             redraw_data_pane(data);
             redraw_board(data);
             redraw_system_message(data);
@@ -376,4 +435,23 @@ $(function() {
     start_sync();
     sync_game();
 
+    congo_bind_trial = function($elem) {
+        $elem.find('.congo-trial-span').unbind('mousedown touchstart');
+        $elem.find('.congo-trial-span').bind('mousedown touchstart', function(e) {
+            var text = $.trim($(this).text());
+            var moves = text.split(/ +/).map(human_coord_to_pos);
+            var trial_data = $.parseJSON(last_synced_data);
+            for(var x = 0; x < moves.length; x ++) {
+                play_move(trial_data['board'], 2 - trial_data['seq'] % 2, moves[x]);
+                trial_data['seq'] += 1;
+            }
+            redraw_board(trial_data, true);
+            $('.modal').addClass('invis-trial-xs');
+        });
+        $elem.find('.congo-trial-span').unbind('mouseup touchend');
+        $elem.find('.congo-trial-span').bind('mouseup touchend', function(e) {
+            $('.modal').removeClass('invis-trial-xs');
+            redraw_board($.parseJSON(last_synced_data));
+        });
+    };
 });

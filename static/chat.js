@@ -1,5 +1,17 @@
 $(function() {
 
+    function insert_trial_tags($elem) {
+        var html = $elem.html();
+        var new_html = html.replace(
+            /([A-Z]\d+( +[A-Z]\d+){2,30})/g,
+            '<span class="congo-trial-span">$1</span>'
+        );
+        if (new_html != html) {
+            $elem.html(new_html);
+            congo_bind_trial($elem);
+        }
+    }
+
     function time() {
         return new Date().getTime() / 1000.;
     }
@@ -49,6 +61,7 @@ $(function() {
                         $line_span.find('.chat-message').css('font-weight', 'bold');
                     }
                     $line_span.find('.chat-message').text(msg.message);
+                    insert_trial_tags($line_span.find('.chat-message'));
 
                     $chat_body.append($line_span);
                     chat_last_id = msg.id;

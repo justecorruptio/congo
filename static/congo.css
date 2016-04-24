@@ -170,6 +170,22 @@ html, body {
     word-wrap: break-word;
 }
 
+@media screen and (max-width: 768px){
+    #congo-chat-modal div.modal-content {
+        background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .invis-trial-xs {
+        opacity: 0.0;
+    }
+}
+
+.congo-trial-span {
+    background-color: #DDFFDD;
+    cursor: cell;
+    -webkit-user-select: none;
+}
+
 /* sgf-overrides */
 
 @media screen and (min-width: 1200px){

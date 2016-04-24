@@ -70,5 +70,5 @@ class Vote(Model):
             WHERE game_id = $game_id
         """, vars={
             'game_id': game_id,
-        })[0].count
+        })[0].count or 0
         return int(count)

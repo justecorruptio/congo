@@ -88,6 +88,15 @@ $(function() {
         $('.congo-info-black-captures').text(data['black_captures']);
         $('.congo-info-white-captures').text(data['white_captures']);
 
+        var board_marks = data['marks'] || [];
+        for(var i = 0; i < board_marks.length; i++) {
+            var mark = board_marks[i];
+            var $sgf_cell = $('.sgf-cell-' + mark.pos);
+            var $sgf_point = $sgf_cell.find('.sgf-point');
+            $sgf_point.attr('point-label', mark.label);
+            $sgf_point.addClass('sgf-coord');
+        }
+
         if (!game_info.voted_move && !is_reviewing() || skip_votes) {
             // If you haven't voted, don't render votes.
             return;
@@ -97,7 +106,7 @@ $(function() {
         for(var i = 0; i < board_votes.length; i++) {
             var vote = board_votes[i];
             var $sgf_cell = $('.sgf-cell-' + vote.pos);
-            var $sgf_point = $sgf_cell.find('.sgf-point')
+            var $sgf_point = $sgf_cell.find('.sgf-point');
             $sgf_point.attr('point-label', vote.label)
             $sgf_point.addClass('sgf-coord');
         }
@@ -106,7 +115,7 @@ $(function() {
         for(var i = 0; i < board_votes.length; i++) {
             var vote = board_votes[i];
             var $sgf_cell = $('.sgf-cell-' + vote.pos);
-            var $sgf_point = $sgf_cell.find('.sgf-point')
+            var $sgf_point = $sgf_cell.find('.sgf-point');
             if($sgf_point.hasClass('sgf-coord')) {
                 continue;
             }
@@ -441,8 +450,13 @@ $(function() {
             var text = $.trim($(this).text());
             var moves = text.split(/ +/).map(human_coord_to_pos);
             var trial_data = $.parseJSON(last_synced_data);
+            trial_data['marks'] = [];
             for(var x = 0; x < moves.length; x ++) {
                 play_move(trial_data['board'], 2 - trial_data['seq'] % 2, moves[x]);
+                trial_data['marks'].push({
+                    'pos': pos_to_sgf(moves[x]),
+                    'label': '' + (x + 1)
+                });
                 trial_data['seq'] += 1;
             }
             redraw_board(trial_data, true);

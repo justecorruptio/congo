@@ -12,6 +12,11 @@ function human_coord_to_pos(coord){
     return pos;
 }
 
+function pos_to_sgf(pos){
+    return String.fromCharCode(97 + (pos[1])) +
+        String.fromCharCode(97 + (pos[0]));
+}
+
 function get_tonari(board, i, j){
     var rows = board.length;
     var cols = board[0].length;

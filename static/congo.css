@@ -41,7 +41,7 @@ html, body {
 }
 
 @media screen and (min-width: 481px){
-    .congo-main-margin-fix {
+    .congo-container-main {
         margin-top: 15px;
     }
 }
@@ -228,7 +228,7 @@ dd {
 }
 
 @media screen and (min-width: 1400px) {
-    .container {
+    .congo-container-main {
         width: 1370px;
     }
 }

@@ -1,3 +1,6 @@
+import os
+import random
+
 class Pretty(object):
     @staticmethod
     def pos(pos):
@@ -18,3 +21,10 @@ class Pretty(object):
             return "%dk" % (-rating,)
         else:
             return "%dd" % (rating,)
+
+
+class Version(object):
+    try:
+        version = os.popen("git rev-parse HEAD").read()[:6]
+    except Exception:
+        version = str(random.randint(100000, 999999))

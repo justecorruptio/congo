@@ -1,9 +1,6 @@
 import web
 
-from models import (
-    Game,
-    Session,
-)
+from models import Session
 from templates import render
 
 

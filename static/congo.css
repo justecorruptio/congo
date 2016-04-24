@@ -189,7 +189,7 @@ html, body {
 .congo-trial-span {
     background-color: #DDFFDD;
     cursor: cell;
-    -webkit-user-select: none;
+    /*-webkit-user-select: none; */
 }
 
 /* bootstrap overrides */

@@ -470,8 +470,8 @@ $(function() {
             redraw_board(trial_data, true);
             $('.modal').addClass('invis-trial-xs');
         });
-        $elem.find('.congo-trial-span').unbind('mouseup touchend');
-        $elem.find('.congo-trial-span').bind('mouseup touchend', function(e) {
+        $elem.find('.congo-trial-span').unbind('mouseup touchend mouseleave');
+        $elem.find('.congo-trial-span').bind('mouseup touchend mouseleave', function(e) {
             $('.modal').removeClass('invis-trial-xs');
             redraw_board($.parseJSON(last_synced_data));
         });

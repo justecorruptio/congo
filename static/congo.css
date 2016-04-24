@@ -40,6 +40,12 @@ html, body {
     outline: none;
 }
 
+@media screen and (min-width: 481px){
+    .congo-main-margin-fix {
+        margin-top: 15px;
+    }
+}
+
 .congo-black-team, .congo-white-team {
     overflow-y: auto;
     max-height: 320px;
@@ -184,20 +190,6 @@ html, body {
     background-color: #DDFFDD;
     cursor: cell;
     -webkit-user-select: none;
-}
-
-/* sgf-overrides */
-
-@media screen and (min-width: 1200px){
-    .sgf-num-right {
-        left: 7px;
-    }
-}
-
-@media screen and (min-width: 1400px){
-    .sgf-num-right {
-        left: 12px;
-    }
 }
 
 /* bootstrap overrides */

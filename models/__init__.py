@@ -1,4 +1,7 @@
-from chat import ChatMessage
+from chat import (
+    ChatMessage,
+    ChatRoom,
+)
 from comment import Comment
 from game import (
     Game,

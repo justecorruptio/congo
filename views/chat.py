@@ -6,6 +6,7 @@ import web
 
 from forms import ChatForm
 from models import (
+    ChatRoom,
     ChatMessage,
     Pretty,
 )
@@ -18,7 +19,7 @@ from views.utils import (
 def wait_for_message(room_id, timeout=120):
     pubsub = redis.Redis(socket_timeout=timeout).pubsub()
     pubsub.subscribe(['chat.%s' % (room_id,)])
-    for i in xrange(5):
+    for i in xrange(3):
         try:
             msg_type, channel, data = pubsub.parse_response()
             if msg_type == 'message':
@@ -60,6 +61,12 @@ class ChatView(object):
 
         deletable = is_admin()
 
+        ChatRoom.set_online(room_id)
+        online_users = [{
+            'name': u[1],
+            'rating': Pretty.rating(u[2]),
+        } for u in ChatRoom.get_online(room_id)]
+
         return json.dumps({
             'messages': list(reversed([
                 {
@@ -70,6 +77,7 @@ class ChatView(object):
                     'deletable': deletable,
                 } for x in messages
             ])),
+            'online_users': online_users,
             'refresh': False,
             'delete_id': delete_id,
         })

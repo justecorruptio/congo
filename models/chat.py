@@ -1,4 +1,41 @@
+import redis
+import web
+
 from models.base import Model
+
+
+class ChatRoom(object):
+
+    @classmethod
+    def set_online(cls, room_id):
+        key = 'chat.online:%d:%d:%s:%d' % (
+            room_id,
+            web.ctx.user.id,
+            web.ctx.user.name,
+            web.ctx.user.rating,
+        )
+        client = redis.Redis()
+        pipeline = client.pipeline()
+        pipeline.set(key, "1")
+        pipeline.expire(key, 10 * 60)
+        pipeline.execute()
+
+    @classmethod
+    def get_online(cls, room_id):
+        client = redis.Redis()
+        matches = client.keys('chat.online:%d:*' % (
+            room_id,
+        ))
+
+        ret = []
+        for match in matches:
+            _, room_id, user_id, name, rating = match.split(":")
+            user_id = int(user_id)
+            rating = int(rating)
+            ret.append((user_id, name, rating))
+
+        ret.sort(key=lambda x: x[1].lower())
+        return ret
 
 
 class ChatMessage(Model):

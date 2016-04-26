@@ -136,6 +136,10 @@ html, body {
     width: 100%;
 }
 
+.chat-whois-online-section {
+    border-bottom: 1px solid #DDDDDD;
+}
+
 .chat-body {
     overflow-y: auto;
 }
@@ -166,7 +170,7 @@ html, body {
 
 @media screen and (min-width: 1400px){
     .chat-body {
-        max-height: 500px;
+        max-height: 455px;
     }
 }
 

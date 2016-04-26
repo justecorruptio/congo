@@ -66,7 +66,11 @@ class Session(Model):
             return False
 
         sessions = cls.db.query("""
-            SELECT s.data as data, u.name as name, u.id as id
+            SELECT
+                s.data as data,
+                u.name as name,
+                u.id as id,
+                u.rating as rating
             FROM Sessions s JOIN Users u ON u.id = s.user_id
             WHERE s.user_id=$user_id
             LIMIT 1

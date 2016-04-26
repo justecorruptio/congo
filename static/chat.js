@@ -19,12 +19,21 @@ $(function() {
     function name_to_color(name) {
         var rgb = [0, 0, 0];
         for(var i = 0; i < name.length; i ++) {
-            rgb[i % 3] = (rgb[i % 3] + name.charCodeAt(i)) % 3;
+            rgb[i % 3] = (rgb[i % 3] + name.charCodeAt(i)) % (i == 1? 4 : 3);
         }
-        var r = rgb[0] * 50 + 50;
-        var g = rgb[1] * 50 + 50;
-        var b = rgb[2] * 50 + 50;
+        var r = rgb[0] * 35 + 50;
+        var g = rgb[1] * 35 + 50;
+        var b = rgb[2] * 35 + 50;
         return 'rgb(' + r + ',' + g + ',' + b + ')';
+    }
+
+    function name_to_color(name) {
+        var h = 0
+        for(var i = 0; i < name.length; i ++) {
+            h += name.charCodeAt(i);
+        }
+        h = (h % 12) * 30;
+        return 'hsl(' + h + ', 30%, 50%)';
     }
 
     $('#congo-chat-modal').on('shown.bs.modal', function () {
@@ -98,6 +107,19 @@ $(function() {
                 });
                 return false;
             });
+
+            var online_users = data['online_users'];
+            var num_online = online_users.length;
+            $('.chat-whois-online').html('Currently: <b>' + num_online + '</b> user' +
+                (num_online != 1? 's': '') + ' online');
+
+            whois_data = '';
+            for(var i = 0; i < online_users.length; i ++) {
+                whois_data += '<b>' + online_users[i].name + ' (' +
+                    online_users[i].rating + ')<br/>';
+            }
+
+            $('.congo-whois-online-pane').html(whois_data);
 
             poll_chat();
 

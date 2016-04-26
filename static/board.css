@@ -197,13 +197,21 @@
 }
 
 @media screen and (min-width: 1200px){
+    .sgf-num-left {
+        top: -5px;
+    }
     .sgf-num-right {
+        top: -5px;
         left: 7px;
     }
 }
 
 @media screen and (min-width: 1400px){
+    .sgf-num-left {
+        top: -7px;
+    }
     .sgf-num-right {
+        top: -7px;
         left: 12px;
     }
 }

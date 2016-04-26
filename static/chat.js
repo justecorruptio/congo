@@ -16,6 +16,17 @@ $(function() {
         return new Date().getTime() / 1000.;
     }
 
+    function name_to_color(name) {
+        var rgb = [0, 0, 0];
+        for(var i = 0; i < name.length; i ++) {
+            rgb[i % 3] = (rgb[i % 3] + name.charCodeAt(i)) % 3;
+        }
+        var r = rgb[0] * 50 + 50;
+        var g = rgb[1] * 50 + 50;
+        var b = rgb[2] * 50 + 50;
+        return 'rgb(' + r + ',' + g + ',' + b + ')';
+    }
+
     $('#congo-chat-modal').on('shown.bs.modal', function () {
         var $chat_container = $('#congo-chat-container');
         $(".congo-chat-modal-body").append($chat_container);
@@ -46,6 +57,7 @@ $(function() {
                         '<a class="chat-delete" data-chat_id="' + msg.id + '" href="">X </a>'
                         :'';
 
+
                     var $line_span = $(
                         '<div class="chat-line" data-chat_id="' + msg.id + '">' +
                             '<b><span class="chat-name"></span></b>: ' +
@@ -55,6 +67,7 @@ $(function() {
                     );
                     if(msg.name) {
                         $line_span.find('.chat-name').text(msg.name + ' (' + msg.rating + ')');
+                        $line_span.find('.chat-name').css('color', name_to_color(msg.name));
                     }
                     else {
                         $line_span.find('.chat-name').text('ConGo Bot');

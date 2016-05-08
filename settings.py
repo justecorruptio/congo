@@ -5,17 +5,22 @@ BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 DATABASE = {
     'dbn': 'mysql',
     'db': 'congo',
-    'user': 'go',
-    'pw': '***REMOVED***',
+    'user': 'root',
+    'pw': '',
 }
 
 DEBUG = True
 
 COOKIE_KEY_USER_ID = 'uid'
 COOKIE_KEY_NONCE = 'nonce'
-COOKIE_DOMAIN = '***REMOVED***'
+COOKIE_DOMAIN = 'localhost'
 
 ADMINS = ['bee', 'matt']
+
+try:
+    from settings_qa import *
+except:
+    pass
 
 try:
     from settings_prod import *

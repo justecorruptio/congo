@@ -15,7 +15,7 @@ COOKIE_KEY_USER_ID = 'uid'
 COOKIE_KEY_NONCE = 'nonce'
 COOKIE_DOMAIN = 'localhost'
 
-ADMINS = ['bee', 'matt']
+ADMINS = []
 
 try:
     from settings_qa import *

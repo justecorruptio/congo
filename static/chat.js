@@ -3,7 +3,7 @@ $(function() {
     function insert_trial_tags($elem) {
         var html = $elem.html();
         var new_html = html.replace(
-            /([A-Z]\d+( +[A-Z]\d+){2,30})/g,
+            /([A-Z]\d+( +[A-Z]\d+){1,100})/g,
             '<span class="congo-trial-span">$1</span>'
         );
         if (new_html != html) {
@@ -88,7 +88,7 @@ $(function() {
                     $chat_body.append($line_span);
                     chat_last_id = msg.id;
                 }
-                while ($chat_body.find('.chat-line').length > 40) {
+                while ($chat_body.find('.chat-line').length > 1000) {
                     $chat_body.find('.chat-line:first').remove();
                 }
                 $chat_body.scrollTop($chat_body.prop('scrollHeight'));

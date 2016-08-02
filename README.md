@@ -19,28 +19,38 @@ Install MySQL, redis and GnuGo.
 
 Grant a user with read-write access to MySQL.
 
+@TODO describe how to do this from shell
+
 Next, create a file called `setting_qa.py` with our database settings:
 
-    git clone https://github.com/justecorruptio/congo.git
-    cd congo
-    echo 'DATABASE = {"dbn": "mysql", "db", "user": "<USER>", "pw": "PASS"}' > setting_qa.py
+    echo 'DATABASE = {"dbn": "mysql", "db": "$DB_NAME", "user": "$USER", "pw": "$PASS"}' > setting_qa.py
 
 Execute the database schema definitions.
 
-    cat db/schema.sql | mysql -u"<USER>"
-    cat db/change_001.sql | mysql -u"<USER>"
+    cat db/schema.sql | mysql -u"$USER" -p"$PASS" $DB_NAME
+    cat db/change_001.sql | mysql -u"$USER" -p"$PASS" $DB_NAME
 
 Install python dependencies:
 
     pip install -r requirements.txt
 
-To start a new game, or to advance to the next move:
+To start a new game:
+
+    ./scripts/start_game.sh
+
+to generate standard users (white, black with password matching username):
+
+    ./scripts/generate_standard_users.sh
+
+or to advance to the next move:
 
     ./scripts/progress_game.sh
 
-To start the development server. Visit `http://localhost:8080`:
+To start the development server.
 
     python webapp.py
+
+Make sure to visit `http://localhost:8080`. If you visit `http://0.0.0.0:8080`, login won't work.
 
 Source Code Layout
 ------------------

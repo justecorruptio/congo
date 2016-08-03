@@ -11,8 +11,8 @@ from models import (
     Vote,
 )
 from views.chat import signal_message
+import settings
 
-GNUGO_PATH = '/usr/games/gnugo'
 DEFAULT_SGF = '(;GM[1]FF[4]SZ[19]KM[6.5]HA[0]RU[Japanese]PL[B])'
 
 def call_gnugo(sgf, seq, move):
@@ -34,7 +34,7 @@ def call_gnugo(sgf, seq, move):
     """ % (
         color,
         Pretty.pos(move),
-        GNUGO_PATH,
+        settings.GNUGO_PATH,
         sgf_file.name,
     )
     gnugo = os.popen(cmd)

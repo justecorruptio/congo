@@ -40,7 +40,7 @@ To start a new game:
 
 to generate standard users (white, black with password matching username):
 
-    ./scripts/generate_standard_users.sh
+    ./scripts/generate_testing_users.sh
 
 or to advance to the next move:
 

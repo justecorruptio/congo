@@ -3,6 +3,7 @@ import os
 import re
 import tempfile
 
+import settings
 from models import (
     ChatMessage,
     Game,
@@ -11,7 +12,6 @@ from models import (
     Vote,
 )
 from views.chat import signal_message
-import settings
 
 DEFAULT_SGF = '(;GM[1]FF[4]SZ[19]KM[6.5]HA[0]RU[Japanese]PL[B])'
 
